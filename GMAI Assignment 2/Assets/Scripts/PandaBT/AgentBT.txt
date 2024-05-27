@@ -1,0 +1,8 @@
+tree("Root")
+	repeat
+		fallback
+			tree("Idle")
+
+tree("Idle")
+	sequence
+		EnterIdleState

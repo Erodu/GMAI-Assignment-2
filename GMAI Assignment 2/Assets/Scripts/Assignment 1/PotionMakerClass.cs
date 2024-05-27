@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Panda;
 
 public class PotionMakerClass : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class PotionMakerClass : MonoBehaviour
     public TextMeshProUGUI timerText; // This will be to give the player visual feedback during waiting functions of certain states.
     public bool isThirdPotion; // Specifically so there's no failure for the third potion during the Brewing State, since the potion maker is very familiar with it.
     public bool dirty; // This will be true if the potion maker was in the Brewing State at any point, and the player leaves.
+    public PandaBehaviour pandaB;
 
     // Start is called before the first frame update
     void Start()
@@ -59,6 +61,15 @@ public class PotionMakerClass : MonoBehaviour
     void Update()
     {
         m_Current.Execute();
+    }
+
+    [Task]
+    void EnterIdleState()
+    {
+        Debug.Log("The Kobold's Beaker is ready for business!");
+        // Enable the button for Approach.
+        btn_Approach.SetActive(true);
+        Task.current.Succeed();
     }
 
     // The following OnClick functions (like ApproachOnClick, TalkOnClick and InquireOnClick) are all here

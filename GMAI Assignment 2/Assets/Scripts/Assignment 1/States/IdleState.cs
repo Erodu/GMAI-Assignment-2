@@ -13,9 +13,9 @@ public class IdleState : PotionMakerStates
 
     public override void Enter()
     {
-        Debug.Log("The Kobold's Beaker is ready for business!");
-        // Enable the button for Approach.
-        m_PotionMaker.btn_Approach.SetActive(true);
+        //Debug.Log("The Kobold's Beaker is ready for business!");
+        //// Enable the button for Approach.
+        //m_PotionMaker.btn_Approach.SetActive(true);
     }
 
     public override void Execute()

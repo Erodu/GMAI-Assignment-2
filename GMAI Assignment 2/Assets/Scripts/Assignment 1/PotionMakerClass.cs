@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using Panda;
 
@@ -44,15 +45,13 @@ public class PotionMakerClass : MonoBehaviour
     public bool isThirdPotion; // Specifically so there's no failure for the third potion during the Brewing State, since the potion maker is very familiar with it.
     public bool dirty; // This will be true if the potion maker was in the Brewing State at any point, and the player leaves.
     public PandaBehaviour pandaB;
-    public float moveSpeed = 3.0f;
-    float step = 0f;
-    float stopDistance = 0.1f; // For the stopping distance when the bot moves to a location.
+    float stopDistance = 0.001f; // For the stopping distance when the bot moves to a location.
 
     // These variables are for the bot to move randomly between locations in the scene.
     public Transform[] locations;
     Transform targetLocation;
 
-    CharacterController botCharControl;
+    NavMeshAgent navAgent;
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +64,7 @@ public class PotionMakerClass : MonoBehaviour
         isThirdPotion = false;
         dirty = false;
 
-        botCharControl = GetComponent<CharacterController>();
+        navAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -103,16 +102,14 @@ public class PotionMakerClass : MonoBehaviour
         {
             targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
 
-            //Vector3 dir = (targetLocation.position - transform.position).normalized;
-            //moveDir = dir * moveSpeed;
-            //botCharControl.Move(moveDir);
-            step = moveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, targetLocation.position, step);
-            Debug.Log("Moving over here...");
+            navAgent.SetDestination(targetLocation.position);
+            Debug.Log("Moving here...");
 
-            if (Vector3.Distance(transform.position, targetLocation.position) < stopDistance) // If the potion maker has reached
+            if (Vector3.Distance(targetLocation.position, transform.position) < stopDistance) // If the potion maker has reached
             {
                 Debug.Log("Reached!");
+                navAgent.ResetPath();
+                targetLocation = null;
                 Task.current.Succeed();
             }
             else

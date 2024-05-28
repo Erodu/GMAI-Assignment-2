@@ -51,6 +51,7 @@ public class PotionMakerClass : MonoBehaviour
     Transform targetLocation;
 
     NavMeshAgent navAgent;
+    bool hasSetPosition = false;
 
     // Start is called before the first frame update
     void Start()
@@ -97,33 +98,15 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void ChooseRandomLocation()
     {
-        if (navAgent.pathPending)
+        if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
         {
-            return;
-        }
-
-        if (locations.Length > 0)
-        {
-            targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
-
-            navAgent.SetDestination(targetLocation.position);
-            Debug.Log("Moving here...");
-
-            if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
+            if (locations.Length > 0)
             {
-                Debug.Log("Reached!");
-                navAgent.isStopped = true;
-                Task.current.Succeed();
+                targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
+
+                navAgent.SetDestination(targetLocation.position);
+                Debug.Log("Moving...");
             }
-            else
-            {
-                Task.current.Fail();
-            }
-        }
-        else
-        {
-            Debug.LogWarning("No locations in array!");
-            Task.current.Fail();
         }
     }
     [Task]

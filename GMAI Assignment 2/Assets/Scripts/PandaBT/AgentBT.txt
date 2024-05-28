@@ -7,7 +7,7 @@ tree("Idle")
 	sequence
 		IsIdleState
 		EnterIdleState
-		repeat
-			fallback
-				CheckApproach
-				ChooseRandomLocation
+		fallback
+			CheckApproach
+			ChooseRandomLocation
+				

@@ -97,6 +97,11 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void ChooseRandomLocation()
     {
+        if (navAgent.pathPending)
+        {
+            return;
+        }
+
         if (locations.Length > 0)
         {
             targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
@@ -312,4 +317,6 @@ public class PotionMakerClass : MonoBehaviour
         m_Current = nextState;
         m_Current.Enter();
     }
+
+
 }

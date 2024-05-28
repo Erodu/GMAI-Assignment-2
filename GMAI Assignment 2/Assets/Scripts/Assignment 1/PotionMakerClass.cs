@@ -45,7 +45,7 @@ public class PotionMakerClass : MonoBehaviour
     public bool dirty; // This will be true if the potion maker was in the Brewing State at any point, and the player leaves.
     public PandaBehaviour pandaB;
     public float moveSpeed = 3.0f;
-    Vector3 moveDir = Vector3.zero;
+    float step = 0f;
     float stopDistance = 0.1f; // For the stopping distance when the bot moves to a location.
 
     // These variables are for the bot to move randomly between locations in the scene.
@@ -103,9 +103,11 @@ public class PotionMakerClass : MonoBehaviour
         {
             targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
 
-            Vector3 dir = (targetLocation.position - transform.position).normalized;
-            moveDir = dir * moveSpeed;
-            botCharControl.Move(moveDir);
+            //Vector3 dir = (targetLocation.position - transform.position).normalized;
+            //moveDir = dir * moveSpeed;
+            //botCharControl.Move(moveDir);
+            step = moveSpeed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, targetLocation.position, step);
             Debug.Log("Moving over here...");
 
             if (Vector3.Distance(transform.position, targetLocation.position) < stopDistance) // If the potion maker has reached

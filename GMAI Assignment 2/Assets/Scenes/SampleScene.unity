@@ -1060,7 +1060,7 @@ GameObject:
   - component: {fileID: 662660784}
   - component: {fileID: 662660783}
   m_Layer: 0
-  m_Name: ComponentLocation
+  m_Name: ComponentArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1433,7 +1433,7 @@ GameObject:
   - component: {fileID: 1153380667}
   - component: {fileID: 1153380666}
   m_Layer: 0
-  m_Name: PlayerCounterLocation
+  m_Name: PlayerCounterArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1771,7 +1771,7 @@ GameObject:
   - component: {fileID: 1355799396}
   - component: {fileID: 1355799395}
   m_Layer: 0
-  m_Name: BrewingLocation
+  m_Name: BrewingArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2685,7 +2685,7 @@ GameObject:
   - component: {fileID: 1665098378}
   - component: {fileID: 1665098377}
   m_Layer: 0
-  m_Name: StudyLocation
+  m_Name: StudyArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2883,7 +2883,7 @@ GameObject:
   - component: {fileID: 1964521557}
   - component: {fileID: 1964521556}
   m_Layer: 0
-  m_Name: AttendingLocation
+  m_Name: AttendingArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

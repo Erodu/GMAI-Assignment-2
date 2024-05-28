@@ -51,7 +51,6 @@ public class PotionMakerClass : MonoBehaviour
     Transform targetLocation;
 
     NavMeshAgent navAgent;
-    bool hasSetPosition = false;
 
     // Start is called before the first frame update
     void Start()

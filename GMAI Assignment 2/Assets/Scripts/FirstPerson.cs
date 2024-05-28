@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FirstPerson : MonoBehaviour
 {
+    // Code is thanks to ChatGPT
     public Camera playerCam;
     public float moveSpeed = 10f;
     public float lookSpeed = 3f;
@@ -24,22 +25,6 @@ public class FirstPerson : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 forward = transform.TransformDirection(Vector3.forward);
-        //Vector3 right = transform.TransformDirection(Vector3.right);
-
-        //float moveX = Input.GetAxis("Horizontal");
-        //float moveY = Input.GetAxis("Vertical");
-
-        //moveDir = (forward * moveX) + (right * moveY);
-        //charControl.Move(moveDir * moveSpeed * Time.deltaTime);
-
-        //// Cam stuff
-        //rotationX += Input.GetAxis("Mouse Y") * lookSpeed;
-        //rotationX = Mathf.Clamp(rotationX, -lookLimit, lookLimit);
-        //playerCam.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-
-        //rotationY = Input.GetAxis("Mouse X") * lookSpeed;
-        //transform.Rotate(0, rotationY, 0);
         Vector3 forward = transform.forward * Input.GetAxis("Vertical");
         Vector3 right = transform.right * Input.GetAxis("Horizontal");
         moveDir = (forward + right) * lookSpeed;

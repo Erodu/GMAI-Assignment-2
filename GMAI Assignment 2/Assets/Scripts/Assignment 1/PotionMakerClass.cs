@@ -107,8 +107,7 @@ public class PotionMakerClass : MonoBehaviour
             if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
             {
                 Debug.Log("Reached!");
-                navAgent.ResetPath();
-                targetLocation = null;
+                navAgent.isStopped = true;
                 Task.current.Succeed();
             }
             else

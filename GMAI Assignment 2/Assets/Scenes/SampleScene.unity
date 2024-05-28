@@ -1060,7 +1060,7 @@ GameObject:
   - component: {fileID: 662660784}
   - component: {fileID: 662660783}
   m_Layer: 0
-  m_Name: ComponentArea
+  m_Name: ComponentLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1420,7 +1420,7 @@ GameObject:
   - component: {fileID: 1153380667}
   - component: {fileID: 1153380666}
   m_Layer: 0
-  m_Name: PlayerCounterArea
+  m_Name: PlayerCounterLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1760,7 +1760,7 @@ GameObject:
   - component: {fileID: 1355799396}
   - component: {fileID: 1355799395}
   m_Layer: 0
-  m_Name: BrewingArea
+  m_Name: BrewingLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2464,7 +2464,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -2656,7 +2656,7 @@ GameObject:
   - component: {fileID: 1665098378}
   - component: {fileID: 1665098377}
   m_Layer: 0
-  m_Name: StudyArea
+  m_Name: StudyLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2854,7 +2854,7 @@ GameObject:
   - component: {fileID: 1964521557}
   - component: {fileID: 1964521556}
   m_Layer: 0
-  m_Name: AttendingArea
+  m_Name: AttendingLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

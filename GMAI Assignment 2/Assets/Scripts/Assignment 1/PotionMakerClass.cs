@@ -45,7 +45,6 @@ public class PotionMakerClass : MonoBehaviour
     public bool isThirdPotion; // Specifically so there's no failure for the third potion during the Brewing State, since the potion maker is very familiar with it.
     public bool dirty; // This will be true if the potion maker was in the Brewing State at any point, and the player leaves.
     public PandaBehaviour pandaB;
-    float stopDistance = 0.001f; // For the stopping distance when the bot moves to a location.
 
     // These variables are for the bot to move randomly between locations in the scene.
     public Transform[] locations;
@@ -105,7 +104,7 @@ public class PotionMakerClass : MonoBehaviour
             navAgent.SetDestination(targetLocation.position);
             Debug.Log("Moving here...");
 
-            if (Vector3.Distance(targetLocation.position, transform.position) < stopDistance) // If the potion maker has reached
+            if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
             {
                 Debug.Log("Reached!");
                 navAgent.ResetPath();
@@ -119,7 +118,7 @@ public class PotionMakerClass : MonoBehaviour
         }
         else
         {
-            Debug.Log("No locations in array!");
+            Debug.LogWarning("No locations in array!");
             Task.current.Fail();
         }
     }

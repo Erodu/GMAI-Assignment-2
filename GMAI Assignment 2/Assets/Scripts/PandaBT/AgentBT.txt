@@ -5,4 +5,9 @@ tree("Root")
 
 tree("Idle")
 	sequence
+		IsIdleState
 		EnterIdleState
+		repeat
+			fallback
+				CheckApproach
+				ChooseRandomLocation

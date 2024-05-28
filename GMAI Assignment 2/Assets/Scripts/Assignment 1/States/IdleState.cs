@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IdleState : PotionMakerStates
 {
-    private bool isBeingApproached = false;
+    public bool isBeingApproached = false;
     public IdleState(PotionMakerClass potionMaker)
     {
         // m_PotionMaker comes from PotionMakerStates.

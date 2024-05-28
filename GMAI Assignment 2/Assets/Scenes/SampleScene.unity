@@ -1420,7 +1420,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3032f2ed0ce8b84488fbae43426b0e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPosition: {fileID: 0}
 --- !u!1 &1153380664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,17 +2013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5247e750b7b994446b95a679b8c57dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 963194227}
-  walkSpeed: 6
-  runSpeed: 12
-  jumpPower: 7
-  gravity: 10
-  lookSpeed: 2
-  lookXLimit: 45
-  moveDirection: {x: 0, y: 0, z: 0}
-  rotationX: 0
-  canMove: 1
-  characterController: {fileID: 0}
 --- !u!114 &1393531701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2331,6 +2319,7 @@ GameObject:
   - component: {fileID: 1618250829}
   - component: {fileID: 1618250833}
   - component: {fileID: 1618250834}
+  - component: {fileID: 1618250835}
   m_Layer: 7
   m_Name: PotionMaker
   m_TagString: Untagged
@@ -2345,7 +2334,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618250828}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e3398a016178afa4b9984d115388827a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2458,6 +2447,12 @@ MonoBehaviour:
   isThirdPotion: 0
   dirty: 0
   pandaB: {fileID: 1618250834}
+  moveSpeed: 3
+  locations:
+  - {fileID: 1964521559}
+  - {fileID: 1665098376}
+  - {fileID: 662660782}
+  - {fileID: 1355799394}
 --- !u!114 &1618250834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2480,6 +2475,32 @@ MonoBehaviour:
     breakPointStatuses: 
     collapsedLines: 
     btScript: 
+--- !u!143 &1618250835
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618250828}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1629946372
 GameObject:
   m_ObjectHideFlags: 0

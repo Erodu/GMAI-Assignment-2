@@ -44,6 +44,15 @@ public class PotionMakerClass : MonoBehaviour
     public bool isThirdPotion; // Specifically so there's no failure for the third potion during the Brewing State, since the potion maker is very familiar with it.
     public bool dirty; // This will be true if the potion maker was in the Brewing State at any point, and the player leaves.
     public PandaBehaviour pandaB;
+    public float moveSpeed = 3.0f;
+    Vector3 moveDir = Vector3.zero;
+    float stopDistance = 0.1f; // For the stopping distance when the bot moves to a location.
+
+    // These variables are for the bot to move randomly between locations in the scene.
+    public Transform[] locations;
+    Transform targetLocation;
+
+    CharacterController botCharControl;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +64,8 @@ public class PotionMakerClass : MonoBehaviour
         inOneSession = false;
         isThirdPotion = false;
         dirty = false;
+
+        botCharControl = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -62,15 +73,73 @@ public class PotionMakerClass : MonoBehaviour
     {
         m_Current.Execute();
     }
-    // Tasks for Idle Tree
+    #region Idle Tasks
     [Task]
-    void EnterIdleState()
+    public void EnterIdleState()
     {
         Debug.Log("The Kobold's Beaker is ready for business!");
         // Enable the button for Approach.
         btn_Approach.SetActive(true);
         Task.current.Succeed();
     }
+
+    [Task]
+    public void CheckApproach()
+    {
+        if (m_Current.GetType() == typeof(IdleState) && ((IdleState)m_Current).isBeingApproached)
+        {
+            ChangeState(new ApproachedState(this));
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+    [Task]
+    public void ChooseRandomLocation()
+    {
+        if (locations.Length > 0)
+        {
+            targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
+
+            Vector3 dir = (targetLocation.position - transform.position).normalized;
+            moveDir = dir * moveSpeed;
+            botCharControl.Move(moveDir);
+            Debug.Log("Moving over here...");
+
+            if (Vector3.Distance(transform.position, targetLocation.position) < stopDistance) // If the potion maker has reached
+            {
+                Debug.Log("Reached!");
+                Task.current.Succeed();
+            }
+            else
+            {
+                Task.current.Fail();
+            }
+        }
+        else
+        {
+            Debug.Log("No locations in array!");
+            Task.current.Fail();
+        }
+    }
+    [Task]
+    public void IsIdleState()
+    {
+        if (m_Current.GetType() == typeof(IdleState))
+        {
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
+    #endregion
+
+    #region OnClick Functions
 
     // The following OnClick functions (like ApproachOnClick, TalkOnClick and InquireOnClick) are all here
     // so that we can call them from our buttons' OnClick functions from Unity.
@@ -232,6 +301,8 @@ public class PotionMakerClass : MonoBehaviour
             }
         }
     }
+
+    #endregion
 
     public void ChangeState(PotionMakerStates nextState)
     {

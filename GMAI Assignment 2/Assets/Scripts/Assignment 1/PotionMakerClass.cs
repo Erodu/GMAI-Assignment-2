@@ -106,7 +106,13 @@ public class PotionMakerClass : MonoBehaviour
                 navAgent.SetDestination(targetLocation.position);
                 Debug.Log("Moving...");
             }
+            else
+            {
+                Task.current.Fail();
+            }
         }
+
+        Task.current.Succeed();
     }
     [Task]
     public void IsIdleState()

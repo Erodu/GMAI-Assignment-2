@@ -80,7 +80,7 @@ public class PotionMakerClass : MonoBehaviour
     {
         Debug.Log("The Kobold's Beaker is ready for business!");
         // Enable the button for Approach.
-        btn_Approach.SetActive(true);
+        //btn_Approach.SetActive(true);
         Task.current.Succeed();
     }
 
@@ -118,20 +118,6 @@ public class PotionMakerClass : MonoBehaviour
                 }
             }
         }
-        //if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
-        //{
-        //    if (locations.Length > 0)
-        //    {
-        //        targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
-
-        //        navAgent.SetDestination(targetLocation.position);
-        //        Debug.Log("Moving...");
-        //    }
-        //    else
-        //    {
-        //        Task.current.Fail();
-        //    }
-        //}
 
         Task.current.Succeed();
     }

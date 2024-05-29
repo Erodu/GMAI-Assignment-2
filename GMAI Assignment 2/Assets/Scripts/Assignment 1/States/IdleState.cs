@@ -20,7 +20,7 @@ public class IdleState : PotionMakerStates
 
     public override void Execute()
     {
-        if (isBeingApproached == true)
+        if (isBeingApproached == true && m_PotionMaker.btn_Approach.activeSelf)
         {
             // If the Potion Maker is being approached, disable the Approach button and transition to the Approached state.
             m_PotionMaker.btn_Approach.SetActive(false);

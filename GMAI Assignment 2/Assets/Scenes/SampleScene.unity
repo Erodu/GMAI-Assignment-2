@@ -819,7 +819,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 1837854981066069144, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InquireOnClick
+      value: DoInquire
       objectReference: {fileID: 0}
     - target: {fileID: 1896832520951417081, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -979,7 +979,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 8507845789622277037, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LeaveOnClick
+      value: DoLeave
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

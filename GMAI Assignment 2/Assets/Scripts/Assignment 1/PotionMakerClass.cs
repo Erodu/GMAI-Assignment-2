@@ -55,9 +55,12 @@ public class PotionMakerClass : MonoBehaviour
     float newPathTime;
     float pathChangeDelayTime = 10f; // The amount of time that is between each location change in seconds.
 
-    /* --- v IMPORTANT BOOLS v --- */
+    bool canMoveRandomly = true;
+    /* --- v IMPORTANT BOOLS FOR BUTTONS v --- */
     bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
     bool customerTalked = false; // Replacing the isTalkedTo variable in the ApproachedState.cs script.
+    bool customerInquired = false;
+    bool customerLeft = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -99,7 +102,7 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void ChooseRandomLocation()
     {
-        if (Time.time - newPathTime >= pathChangeDelayTime) // This is to have a delay between each time the bot wanders to a random location.
+        if (Time.time - newPathTime >= pathChangeDelayTime && canMoveRandomly == true) // This is to have a delay between each time the bot wanders to a random location.
         {
             if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
             {
@@ -139,6 +142,7 @@ public class PotionMakerClass : MonoBehaviour
         {
             approachButtonAffected = false;
             customerApproached = false;
+            btn_Approach.SetActive(false);
             Task.current.Succeed();
         }
         else
@@ -152,12 +156,45 @@ public class PotionMakerClass : MonoBehaviour
     {
         if (locations.Length > 0 && navAgent != null)
         {
+            canMoveRandomly = false;
             navAgent.SetDestination(locations[0].position); // Element 0 is the Attending Location.
+            btn_Talk.SetActive(true);
             Task.current.Succeed();
         }
         else
         {
             Debug.Log("No location to move to.");
+            Task.current.Fail();
+        }
+    }
+
+    #endregion
+
+    #region Attending Tasks and Related Code
+
+    [Task]
+    public void CheckAttending()
+    {
+        if (customerTalked == true)
+        {
+            btn_Talk.gameObject.SetActive(false);
+            customerTalked = false;
+            if (inOneSession == true)
+            {
+                Debug.Log("'Anything else I can do for you?' The potion maker politely asks.");
+                btn_Inquire.SetActive(true);
+                btn_Leave.SetActive(true);
+            }
+            else
+            {
+                Debug.Log("'Hello! Welcome to The Kobold's Beaker, how may I help you?' The potion maker chirps.");
+                btn_Inquire.SetActive(true);
+                btn_Leave.SetActive(true);
+            }
+            Task.current.Succeed();
+        }
+        else
+        {
             Task.current.Fail();
         }
     }
@@ -177,6 +214,16 @@ public class PotionMakerClass : MonoBehaviour
         customerTalked = true;
     }
 
+    public void DoInquire()
+    {
+        customerInquired = true;
+    }
+
+    public void DoLeave()
+    {
+        customerLeft = true;
+    }
+
     #endregion
 
     #region OnClick Functions from Assignment 1
@@ -185,28 +232,6 @@ public class PotionMakerClass : MonoBehaviour
     // so that we can call them from our buttons' OnClick functions from Unity.
     // We can't normally just call the functions that are called within these OnClicks since they are stored inside
     // the state scripts themselves, and PotionMakerStates and its subclasses are not attached to any GameObject.
-
-    public void InquireOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(AttendingState))
-            {
-                ((AttendingState)m_Current).Inquired();
-            }
-        }
-    }
-
-    public void LeaveOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(AttendingState))
-            {
-                ((AttendingState)m_Current).LeaveShop();
-            }
-        }
-    }
 
     public void HealingOnClick()
     {

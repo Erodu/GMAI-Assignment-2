@@ -3,6 +3,7 @@ tree("Root")
 		fallback
 			tree("Idle")
 			tree("Approached")
+			tree("Attending")
 
 tree("Idle")
 	sequence
@@ -13,4 +14,7 @@ tree("Approached")
 	sequence
 		CheckApproach
 		MoveToCounter
-		ApproachDebug
+
+tree("Attending")
+	sequence
+		CheckAttending

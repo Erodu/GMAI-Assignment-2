@@ -133,18 +133,6 @@ public class PotionMakerClass : MonoBehaviour
 
         Task.current.Succeed();
     }
-    //[Task]
-    //public void IsIdleState()
-    //{
-    //    if (m_Current.GetType() == typeof(IdleState))
-    //    {
-    //        Task.current.Succeed();
-    //    }
-    //    else
-    //    {
-    //        Task.current.Fail();
-    //    }
-    //}
 
     #endregion
 
@@ -159,6 +147,7 @@ public class PotionMakerClass : MonoBehaviour
 
     public void DoApproach()
     {
+        //Debug.Log("Clickity?");
         customerApproached = true;
     }
 

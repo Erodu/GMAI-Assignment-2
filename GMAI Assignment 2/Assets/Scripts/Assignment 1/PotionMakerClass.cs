@@ -205,8 +205,10 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckCustomerInquired()
     {
+        Debug.Log("This task is running");
         if (customerInquired == true)
         {
+            //Debug.Log("Yes, inquiry is true");
             customerInquired = false;
             Task.current.Succeed();
         }
@@ -274,16 +276,16 @@ public class PotionMakerClass : MonoBehaviour
 
     #endregion
 
-    #region Functions & Tasks for All Trees
+    //#region Functions & Tasks for All Trees
 
-    [Task]
-    public void ChangeTree(string tree)
-    {
-        // Code
-        Task.current.Succeed();
-    }
+    //[Task]
+    //public void ChangeTree(string tree)
+    //{
+    //    // Code
+    //    Task.current.Succeed();
+    //}
 
-    #endregion
+    //#endregion
 
     #region New Button Functions
 
@@ -300,8 +302,9 @@ public class PotionMakerClass : MonoBehaviour
 
     public void DoInquire()
     {
-        //Debug.Log("Clicked");
+        Debug.Log("Clicked");
         customerInquired = true;
+        Debug.Log(customerInquired);
     }
 
     public void DoLeave()

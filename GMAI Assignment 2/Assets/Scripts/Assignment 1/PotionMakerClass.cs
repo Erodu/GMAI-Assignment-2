@@ -82,16 +82,23 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void EnterIdleState()
     {
-        Debug.Log("The Kobold's Beaker is ready for business!");
-        // Enable the button for Approach.
-        //btn_Approach.SetActive(true);
-        Task.current.Succeed();
+        if (customerApproached == false)
+        {
+            Debug.Log("The Kobold's Beaker is ready for business!");
+            // Enable the button for Approach.
+            //btn_Approach.SetActive(true);
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
     }
 
     [Task]
     public void CheckApproach()
     {
-        if (customerApproached)
+        if (customerApproached == true)
         {
             approachButtonAffected = false;
             customerApproached = false;

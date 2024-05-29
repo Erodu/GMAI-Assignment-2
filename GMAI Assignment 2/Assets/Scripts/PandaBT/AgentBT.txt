@@ -7,9 +7,9 @@ tree("Root")
 tree("Idle")
 	sequence
 		EnterIdleState
-		conditional(CheckApproach)
-			tree("Approached")
+		CheckApproach
 		ChooseRandomLocation
 
 tree("Approached")
-	ApproachDebug
+	sequence
+		ApproachDebug

@@ -83,7 +83,7 @@ public class PotionMakerClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //m_Current.Execute();
+        m_Current.Execute();
     }
     #region Idle Tasks and Related Code
     [Task]
@@ -276,7 +276,12 @@ public class PotionMakerClass : MonoBehaviour
 
     #region Functions & Tasks for All Trees
 
-    // Switch to a specific tree.
+    [Task]
+    public void ChangeTree(string tree)
+    {
+        // Code
+        Task.current.Succeed();
+    }
 
     #endregion
 

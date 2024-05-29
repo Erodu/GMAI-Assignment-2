@@ -71,7 +71,7 @@ public class PotionMakerClass : MonoBehaviour
     {
         m_Current.Execute();
     }
-    #region Idle Tasks
+    #region Idle Tasks and Related Code
     [Task]
     public void EnterIdleState()
     {
@@ -95,7 +95,7 @@ public class PotionMakerClass : MonoBehaviour
         }
     }
     [Task]
-    public void ChooseRandomLocation()
+    public IEnumerator ChooseRandomLocation()
     {
         if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
         {
@@ -111,6 +111,7 @@ public class PotionMakerClass : MonoBehaviour
                 Task.current.Fail();
             }
         }
+        yield return new WaitForSeconds(10); // Delay before a new path is walked.
 
         Task.current.Succeed();
     }

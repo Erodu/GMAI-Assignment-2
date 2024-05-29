@@ -2,12 +2,14 @@ tree("Root")
 	repeat
 		fallback
 			tree("Idle")
+			tree("Approached")
 
 tree("Idle")
 	sequence
-		IsIdleState
 		EnterIdleState
-		fallback
-			CheckApproach
-			ChooseRandomLocation
-				
+		conditional(CheckApproach)
+			tree("Approached")
+		ChooseRandomLocation
+
+tree("Approached")
+	ApproachDebug

@@ -55,6 +55,10 @@ public class PotionMakerClass : MonoBehaviour
     float newPathTime;
     float pathChangeDelayTime = 10f; // The amount of time that is between each location change in seconds.
 
+    /* --- v IMPORTANT BOOLS v --- */
+    bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
+    public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,9 +91,10 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckApproach()
     {
-        if (m_Current.GetType() == typeof(IdleState) && ((IdleState)m_Current).isBeingApproached)
+        if (customerApproached)
         {
-            ChangeState(new ApproachedState(this));
+            approachButtonAffected = false;
+            customerApproached = false;
             Task.current.Succeed();
         }
         else
@@ -121,22 +126,38 @@ public class PotionMakerClass : MonoBehaviour
 
         Task.current.Succeed();
     }
+    //[Task]
+    //public void IsIdleState()
+    //{
+    //    if (m_Current.GetType() == typeof(IdleState))
+    //    {
+    //        Task.current.Succeed();
+    //    }
+    //    else
+    //    {
+    //        Task.current.Fail();
+    //    }
+    //}
+
+    #endregion
+
     [Task]
-    public void IsIdleState()
+    public void ApproachDebug()
     {
-        if (m_Current.GetType() == typeof(IdleState))
-        {
-            Task.current.Succeed();
-        }
-        else
-        {
-            Task.current.Fail();
-        }
+        Debug.Log("Approached Tree now!");
+        Task.current.Succeed();
+    }
+
+    #region New Button Functions
+
+    public void DoApproach()
+    {
+        customerApproached = true;
     }
 
     #endregion
 
-    #region OnClick Functions
+    #region OnClick Functions from Assignment 1
 
     // The following OnClick functions (like ApproachOnClick, TalkOnClick and InquireOnClick) are all here
     // so that we can call them from our buttons' OnClick functions from Unity.

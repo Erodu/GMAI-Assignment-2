@@ -8,7 +8,7 @@ public class CounterTriggerZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && potionMaker.approachButtonAffected == true)
         {
             potionMaker.btn_Approach.SetActive(true); // Set this to true when the player is in the trigger zone.
         }
@@ -16,7 +16,7 @@ public class CounterTriggerZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && potionMaker.approachButtonAffected == true)
         {
             potionMaker.btn_Approach.SetActive(false); // Vice versa.
         }

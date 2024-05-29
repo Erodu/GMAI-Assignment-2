@@ -26,10 +26,10 @@ public class IdleState : PotionMakerStates
             m_PotionMaker.btn_Approach.SetActive(false);
             m_PotionMaker.ChangeState(new ApproachedState(m_PotionMaker));
         }
-        else
-        {
-            Debug.Log("Waiting for customers...");
-        }
+        //else
+        //{
+        //    Debug.Log("Waiting for customers...");
+        //}
     }
 
     public override void Exit()

@@ -52,6 +52,9 @@ public class PotionMakerClass : MonoBehaviour
 
     NavMeshAgent navAgent;
 
+    float newPathTime;
+    float pathChangeDelayTime = 10f; // The amount of time that is between each location change in seconds.
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,23 +98,40 @@ public class PotionMakerClass : MonoBehaviour
         }
     }
     [Task]
-    public IEnumerator ChooseRandomLocation()
+    public void ChooseRandomLocation()
     {
-        if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
+        if (Time.time - newPathTime >= pathChangeDelayTime)
         {
-            if (locations.Length > 0)
+            if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
             {
-                targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
+                if (locations.Length > 0)
+                {
+                    targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
 
-                navAgent.SetDestination(targetLocation.position);
-                Debug.Log("Moving...");
-            }
-            else
-            {
-                Task.current.Fail();
+                    navAgent.SetDestination(targetLocation.position);
+                    Debug.Log("Moving...");
+                    newPathTime = Time.time;
+                }
+                else
+                {
+                    Task.current.Fail();
+                }
             }
         }
-        yield return new WaitForSeconds(10); // Delay before a new path is walked.
+        //if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
+        //{
+        //    if (locations.Length > 0)
+        //    {
+        //        targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
+
+        //        navAgent.SetDestination(targetLocation.position);
+        //        Debug.Log("Moving...");
+        //    }
+        //    else
+        //    {
+        //        Task.current.Fail();
+        //    }
+        //}
 
         Task.current.Succeed();
     }

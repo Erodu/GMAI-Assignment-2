@@ -855,7 +855,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 4811360952841852949, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApproachOnClick
+      value: DoApproach
       objectReference: {fileID: 0}
     - target: {fileID: 5963409863402097844, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1400,13 +1400,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.59257364, z: 0}
+  m_LocalRotation: {x: 0.43120748, y: -0, z: -0, w: 0.90225285}
+  m_LocalPosition: {x: 0, y: 16.73, z: -16.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1393531698}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 51.088, y: 0, z: 0}
 --- !u!1 &1153380664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,7 +1735,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 279
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -1867,7 +1867,7 @@ GameObject:
   - component: {fileID: 1393531696}
   - component: {fileID: 1393531695}
   - component: {fileID: 1393531699}
-  - component: {fileID: 1393531701}
+  - component: {fileID: 1393531700}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1957,11 +1957,10 @@ Transform:
   m_GameObject: {fileID: 1393531694}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0857344, y: 4.2674265, z: -6.1831884}
+  m_LocalPosition: {x: 0.84, y: 4.2674265, z: -6.1831884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 963194228}
+  m_Children: []
   m_Father: {fileID: 933238492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1393531699
@@ -1990,7 +1989,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1393531701
+--- !u!114 &1393531700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1999,13 +1998,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1393531694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b22b3e1c765c3641ab3d9822cbe4663, type: 3}
+  m_Script: {fileID: 11500000, guid: 98151dbfa6567914984e8e1a369edac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCam: {fileID: 963194227}
   moveSpeed: 10
-  lookSpeed: 3
-  lookLimit: 45
 --- !u!1 &1460361439
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,6 +2425,7 @@ MonoBehaviour:
   - {fileID: 1665098376}
   - {fileID: 662660782}
   - {fileID: 1355799394}
+  approachButtonAffected: 1
 --- !u!114 &1618250834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3178,6 +3175,7 @@ BoxCollider:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 1680421952}
   - {fileID: 1618250832}

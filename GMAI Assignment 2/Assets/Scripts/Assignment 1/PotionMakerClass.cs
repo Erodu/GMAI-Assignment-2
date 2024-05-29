@@ -100,7 +100,7 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void ChooseRandomLocation()
     {
-        if (Time.time - newPathTime >= pathChangeDelayTime)
+        if (Time.time - newPathTime >= pathChangeDelayTime) // This is to have a delay between each time the bot wanders to a random location.
         {
             if (!navAgent.pathPending && !navAgent.hasPath) // If the potion maker has reached, thanks to ChatGPT for suggesting these parameters.
             {

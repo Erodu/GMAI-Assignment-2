@@ -24,8 +24,7 @@ tree("Attending")
 				tree("PotionInquiry")
 			sequence
 				CheckCustomerLeft
-				fallback
-					tree("Idle")
+				tree("Idle")
 
 tree("PotionInquiry")
 	InitializeInquiry

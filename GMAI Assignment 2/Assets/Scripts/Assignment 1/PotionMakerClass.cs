@@ -83,7 +83,7 @@ public class PotionMakerClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_Current.Execute();
+        //m_Current.Execute();
     }
     #region Idle Tasks and Related Code
     [Task]
@@ -114,7 +114,7 @@ public class PotionMakerClass : MonoBehaviour
                     targetLocation = locations[Random.Range(0, locations.Length)]; // Randomize the location the bot goes to.
 
                     navAgent.SetDestination(targetLocation.position);
-                    Debug.Log("Moving...");
+                    //Debug.Log("Moving...");
                     newPathTime = Time.time;
                 }
                 else
@@ -207,6 +207,7 @@ public class PotionMakerClass : MonoBehaviour
     {
         if (customerInquired == true)
         {
+            customerInquired = false;
             Task.current.Succeed();
         }
         else
@@ -238,26 +239,44 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void InitializeInquiry() // Start the necessary things for this tree
     {
-        if (customerInquired == true)
-        {
-            customerInquired = false;
-            btn_Inquire.SetActive(false);
-            btn_Leave.SetActive(false);
-            Debug.Log("[EXPAND FOR FULL TEXT] 'I have about three potions for today, but only two types are readily available.'\n" +
-                "'First off, there's our healing potions, which are prepared already and have a flat fee of 10 gold pieces each!'\n" +
-                "'Then we have a rather new one! A Potion of Arcane Excellence. But since it's new, I'd have to check if I actually have the components, and refresh myself on how to make it.'\n" +
-                "'The third one... Well, I know for sure I'm missing something for that one.'");
+        customerInquired = false;
+        btn_Inquire.SetActive(false);
+        btn_Leave.SetActive(false);
+        Debug.Log("[EXPAND FOR FULL TEXT] 'I have about three potions for today, but only two types are readily available.'\n" +
+            "'First off, there's our healing potions, which are prepared already and have a flat fee of 10 gold pieces each!'\n" +
+            "'Then we have a rather new one! A Potion of Arcane Excellence. But since it's new, I'd have to check if I actually have the components, and refresh myself on how to make it.'\n" +
+            "'The third one... Well, I know for sure I'm missing something for that one.'");
 
-            btn_Healing.SetActive(true);
-            btn_Arcane.SetActive(true);
-            btn_ThirdPotion.SetActive(true);
-            Task.current.Succeed();
-        }
-        else
-        {
-            Task.current.Fail();
-        }
+        btn_Healing.SetActive(true);
+        btn_Arcane.SetActive(true);
+        btn_ThirdPotion.SetActive(true);
+        Task.current.Succeed();
+        //if (customerInquired == true)
+        //{
+        //    customerInquired = false;
+        //    btn_Inquire.SetActive(false);
+        //    btn_Leave.SetActive(false);
+        //    Debug.Log("[EXPAND FOR FULL TEXT] 'I have about three potions for today, but only two types are readily available.'\n" +
+        //        "'First off, there's our healing potions, which are prepared already and have a flat fee of 10 gold pieces each!'\n" +
+        //        "'Then we have a rather new one! A Potion of Arcane Excellence. But since it's new, I'd have to check if I actually have the components, and refresh myself on how to make it.'\n" +
+        //        "'The third one... Well, I know for sure I'm missing something for that one.'");
+
+        //    btn_Healing.SetActive(true);
+        //    btn_Arcane.SetActive(true);
+        //    btn_ThirdPotion.SetActive(true);
+        //    Task.current.Succeed();
+        //}
+        //else
+        //{
+        //    Task.current.Fail();
+        //}
     }
+
+    #endregion
+
+    #region Functions & Tasks for All Trees
+
+    // Switch to a specific tree.
 
     #endregion
 
@@ -276,6 +295,7 @@ public class PotionMakerClass : MonoBehaviour
 
     public void DoInquire()
     {
+        //Debug.Log("Clicked");
         customerInquired = true;
     }
 

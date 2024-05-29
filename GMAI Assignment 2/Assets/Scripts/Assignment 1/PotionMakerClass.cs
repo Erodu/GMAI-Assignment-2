@@ -57,6 +57,7 @@ public class PotionMakerClass : MonoBehaviour
 
     /* --- v IMPORTANT BOOLS v --- */
     bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
+    bool customerTalked = false; // Replacing the isTalkedTo variable in the ApproachedState.cs script.
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -96,20 +97,6 @@ public class PotionMakerClass : MonoBehaviour
     }
 
     [Task]
-    public void CheckApproach()
-    {
-        if (customerApproached == true)
-        {
-            approachButtonAffected = false;
-            customerApproached = false;
-            Task.current.Succeed();
-        }
-        else
-        {
-            Task.current.Fail();
-        }
-    }
-    [Task]
     public void ChooseRandomLocation()
     {
         if (Time.time - newPathTime >= pathChangeDelayTime) // This is to have a delay between each time the bot wanders to a random location.
@@ -136,6 +123,8 @@ public class PotionMakerClass : MonoBehaviour
 
     #endregion
 
+    #region Approached Tasks and Related Code
+
     [Task]
     public void ApproachDebug()
     {
@@ -143,12 +132,49 @@ public class PotionMakerClass : MonoBehaviour
         Task.current.Succeed();
     }
 
+    [Task]
+    public void CheckApproach()
+    {
+        if (customerApproached == true)
+        {
+            approachButtonAffected = false;
+            customerApproached = false;
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
+    [Task]
+    public void MoveToCounter()
+    {
+        if (locations.Length > 0 && navAgent != null)
+        {
+            navAgent.SetDestination(locations[0].position); // Element 0 is the Attending Location.
+            Task.current.Succeed();
+        }
+        else
+        {
+            Debug.Log("No location to move to.");
+            Task.current.Fail();
+        }
+    }
+
+    #endregion
+
     #region New Button Functions
 
     public void DoApproach()
     {
         //Debug.Log("Clickity?");
         customerApproached = true;
+    }
+
+    public void DoTalk()
+    {
+        customerTalked = true;
     }
 
     #endregion
@@ -159,30 +185,6 @@ public class PotionMakerClass : MonoBehaviour
     // so that we can call them from our buttons' OnClick functions from Unity.
     // We can't normally just call the functions that are called within these OnClicks since they are stored inside
     // the state scripts themselves, and PotionMakerStates and its subclasses are not attached to any GameObject.
-    public void ApproachOnClick()
-    {
-        // Activate the ApproachPotionMaker() function in the Idle State script.
-        if (m_Current != null)
-        {
-            // Though first, let's make sure to check if the current state is the Idle state.
-            if (m_Current.GetType() == typeof(IdleState))
-            {
-                ((IdleState)m_Current).ApproachPotionMaker();
-            }
-        }
-    }
-
-    public void TalkOnClick()
-    {
-        // Following the logic for ApproachOnClick().
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(ApproachedState))
-            {
-                ((ApproachedState)m_Current).TalkToPotionMaker();
-            }
-        }
-    }
 
     public void InquireOnClick()
     {

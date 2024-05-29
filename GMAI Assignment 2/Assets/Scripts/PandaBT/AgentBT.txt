@@ -12,4 +12,5 @@ tree("Idle")
 tree("Approached")
 	sequence
 		CheckApproach
+		MoveToCounter
 		ApproachDebug

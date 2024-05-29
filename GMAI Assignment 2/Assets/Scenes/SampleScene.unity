@@ -775,7 +775,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 355164206622833751, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TalkOnClick
+      value: DoTalk
       objectReference: {fileID: 0}
     - target: {fileID: 388145250590811673, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_IsActive

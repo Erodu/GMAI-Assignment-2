@@ -1,9 +1,9 @@
 tree("Root")
 	repeat
 		fallback
-			tree("Idle")
 			tree("Approached")
 			tree("Attending")
+			tree("Idle")
 
 tree("Idle")
 	sequence

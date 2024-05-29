@@ -199,6 +199,38 @@ public class PotionMakerClass : MonoBehaviour
         }
     }
 
+    [Task]
+    public void CheckCustomerInquired()
+    {
+        if (customerInquired == true)
+        {
+            customerInquired = false;
+            btn_Inquire.SetActive(false);
+            btn_Leave.SetActive(false);
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
+    [Task]
+    public void CheckCustomerLeft()
+    {
+        if (customerLeft == true)
+        {
+            customerLeft = false;
+            btn_Inquire.SetActive(false);
+            btn_Leave.SetActive(false);
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
     #endregion
 
     #region New Button Functions

@@ -28,4 +28,4 @@ tree("Attending")
 					tree("Idle")
 
 tree("PotionInquiry")
-	Succeed
+	InitializeInquiry

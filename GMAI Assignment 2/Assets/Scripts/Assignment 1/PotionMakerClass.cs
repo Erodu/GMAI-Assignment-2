@@ -205,17 +205,32 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckCustomerInquired()
     {
-        Debug.Log("This task is running");
-        if (customerInquired == true)
+        //Debug.Log("This task is running");
+        //if (customerInquired == true)
+        //{
+        //    //Debug.Log("Yes, inquiry is true");
+        //    customerInquired = false;
+        //    Task.current.Succeed();
+        //}
+        //else
+        //{
+        //    Task.current.Fail();
+        //}
+        StartCoroutine(InquiryRepeat());
+    }
+
+    private IEnumerator InquiryRepeat() // Brute forcing the CheckCustomerInquired task to repeat, since the repeat node is not working for some reason.
+    {
+        Debug.Log("Repeating!");
+        while (customerInquired == false)
         {
-            //Debug.Log("Yes, inquiry is true");
-            customerInquired = false;
-            Task.current.Succeed();
+            if (customerInquired == true)
+            {
+                break;
+            }
+            yield return null;
         }
-        else
-        {
-            Task.current.Fail();
-        }
+        Task.current.Succeed();
     }
 
     [Task]

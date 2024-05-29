@@ -59,8 +59,11 @@ public class PotionMakerClass : MonoBehaviour
     /* --- v IMPORTANT BOOLS FOR BUTTONS v --- */
     bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
     bool customerTalked = false; // Replacing the isTalkedTo variable in the ApproachedState.cs script.
-    bool customerInquired = false;
+    bool customerInquired = false; // We get the picture now, I think.
     bool customerLeft = false;
+    bool customerChoseHealing = false;
+    bool customerChoseArcane = false;
+    bool customerChoseThirdPotion = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -205,8 +208,6 @@ public class PotionMakerClass : MonoBehaviour
         if (customerInquired == true)
         {
             customerInquired = false;
-            btn_Inquire.SetActive(false);
-            btn_Leave.SetActive(false);
             Task.current.Succeed();
         }
         else
@@ -229,6 +230,25 @@ public class PotionMakerClass : MonoBehaviour
         {
             Task.current.Fail();
         }
+    }
+
+    #endregion
+
+    #region Potion Inquiry Tree and Related Code
+
+    [Task]
+    public void InitializeInquiry() // Start the necessary things for this tree
+    {
+        btn_Inquire.SetActive(false);
+        btn_Leave.SetActive(false);
+        Debug.Log("[EXPAND FOR FULL TEXT] 'I have about three potions for today, but only two types are readily available.'\n" +
+            "'First off, there's our healing potions, which are prepared already and have a flat fee of 10 gold pieces each!'\n" +
+            "'Then we have a rather new one! A Potion of Arcane Excellence. But since it's new, I'd have to check if I actually have the components, and refresh myself on how to make it.'\n" +
+            "'The third one... Well, I know for sure I'm missing something for that one.'");
+
+        btn_Healing.SetActive(true);
+        btn_Arcane.SetActive(true);
+        btn_ThirdPotion.SetActive(true);
     }
 
     #endregion
@@ -256,6 +276,21 @@ public class PotionMakerClass : MonoBehaviour
         customerLeft = true;
     }
 
+    public void DoHealing()
+    {
+        customerChoseHealing = true;
+    }
+
+    public void DoArcane()
+    {
+        customerChoseArcane = true;
+    }
+
+    public void DoThirdPotion()
+    {
+        customerChoseThirdPotion = true;
+    }
+
     #endregion
 
     #region OnClick Functions from Assignment 1
@@ -264,39 +299,6 @@ public class PotionMakerClass : MonoBehaviour
     // so that we can call them from our buttons' OnClick functions from Unity.
     // We can't normally just call the functions that are called within these OnClicks since they are stored inside
     // the state scripts themselves, and PotionMakerStates and its subclasses are not attached to any GameObject.
-
-    public void HealingOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(PotionInquiryState))
-            {
-                ((PotionInquiryState)m_Current).ChooseHealingPotion();
-            }
-        }
-    }
-
-    public void ArcaneOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(PotionInquiryState))
-            {
-                ((PotionInquiryState)m_Current).ChooseArcanePotion();
-            }
-        }
-    }
-
-    public void ThirdOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(PotionInquiryState))
-            {
-                ((PotionInquiryState)m_Current).ChooseThirdPotion();
-            }
-        }
-    }
 
     public void GiveOnClick()
     {

@@ -18,6 +18,14 @@ tree("Approached")
 tree("Attending")
 	sequence
 		CheckAttending
+		fallback
+			sequence
+				CheckCustomerInquired
+				tree("PotionInquiry")
+			sequence
+				CheckCustomerLeft
+				fallback
+					tree("Idle")
 
 tree("PotionInquiry")
 	Succeed

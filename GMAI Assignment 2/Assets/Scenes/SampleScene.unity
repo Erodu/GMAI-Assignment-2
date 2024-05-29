@@ -767,7 +767,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 315440531791720872, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealingOnClick
+      value: DoHealing
       objectReference: {fileID: 0}
     - target: {fileID: 355164206622833751, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -795,7 +795,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 882086755531270694, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ThirdOnClick
+      value: DoThirdPotion
       objectReference: {fileID: 0}
     - target: {fileID: 1324126921022442357, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -803,7 +803,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 1324126921022442357, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ArcaneOnClick
+      value: DoArcane
       objectReference: {fileID: 0}
     - target: {fileID: 1341531452391472475, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

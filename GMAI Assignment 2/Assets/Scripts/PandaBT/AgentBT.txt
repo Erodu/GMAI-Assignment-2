@@ -18,13 +18,14 @@ tree("Approached")
 tree("Attending")
 	sequence
 		CheckAttending
-		fallback
+		parallel
 			sequence
 				CheckCustomerInquired
 				tree("PotionInquiry")
 			sequence
 				CheckCustomerLeft
-				tree("Idle")
+				SayFarewell
+				RestartAgent
 
 tree("PotionInquiry")
 	sequence

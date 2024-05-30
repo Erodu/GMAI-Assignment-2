@@ -231,17 +231,32 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckCustomerLeft()
     {
-        if (customerLeft == true)
+        //if (customerLeft == true)
+        //{
+        //    customerLeft = false;
+        //    btn_Inquire.SetActive(false);
+        //    btn_Leave.SetActive(false);
+        //    Task.current.Succeed();
+        //}
+        //else
+        //{
+        //    Task.current.Fail();
+        //}
+        StartCoroutine(CheckLeftRepeat());
+    }
+
+    private IEnumerator CheckLeftRepeat() 
+    {
+        Debug.Log("Running");
+        while (customerLeft == false)
         {
-            customerLeft = false;
-            btn_Inquire.SetActive(false);
-            btn_Leave.SetActive(false);
-            Task.current.Succeed();
+            if (customerLeft == true)
+            {
+                break;
+            }
+            yield return null;
         }
-        else
-        {
-            Task.current.Fail();
-        }
+        Task.current.Succeed();
     }
 
     #endregion
@@ -400,11 +415,23 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void SayFarewell()
     {
-        if (customerPaid == true)
+        if (customerPaid)
         {
             Debug.Log("Thank you for your business!");
             customerPaid = false;
             btn_Pay.SetActive(false);
+            canMoveRandomly = true;
+            approachButtonAffected = true;
+            navAgent.ResetPath();
+
+            Task.current.Succeed();
+        }
+        else if (customerLeft)
+        {
+            Debug.Log("Oh, okay. Have a nice day.");
+            customerLeft = false;
+            btn_Inquire.SetActive(false);
+            btn_Leave.SetActive(false);
             canMoveRandomly = true;
             approachButtonAffected = true;
             navAgent.ResetPath();

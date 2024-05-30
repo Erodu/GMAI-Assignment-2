@@ -392,19 +392,15 @@ public class PotionMakerClass : MonoBehaviour
     }
 
     [Task]
-    public void BackToAttendingTree()
+    public void SayFarewell()
     {
-        if (customerPaid)
+        if (customerPaid == true)
         {
+            Debug.Log("Thank you for your business!");
             customerPaid = false;
             btn_Pay.SetActive(false);
-            btn_Inquire.SetActive(true);
-            btn_Leave.SetActive(true);
-            Task.current.Succeed();
-        }
-        else
-        {
-            Task.current.Fail();
+            canMoveRandomly = true;
+            approachButtonAffected = true;
         }
     }
 

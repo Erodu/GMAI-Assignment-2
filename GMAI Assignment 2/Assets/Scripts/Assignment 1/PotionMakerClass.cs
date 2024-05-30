@@ -84,7 +84,7 @@ public class PotionMakerClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_Current.Execute();
+        //m_Current.Execute();
     }
     #region Idle Tasks and Related Code
     [Task]
@@ -135,6 +135,7 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckApproach()
     {
+        //Debug.Log("Checking for approach");
         if (customerApproached == true)
         {
             approachButtonAffected = false;
@@ -172,6 +173,7 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckAttending()
     {
+        //Debug.Log("Checking for attending");
         if (customerTalked == true)
         {
             btn_Talk.gameObject.SetActive(false);
@@ -352,6 +354,10 @@ public class PotionMakerClass : MonoBehaviour
 
     #region Transaction Tree and Related Code
 
+    // The Transaction Tree, unfortunately, does not work in the exact way that it does in the Finite State Machine.
+    // Due to unfamiliarity with PandaBT, I was unable to find a way to have it go back to the Attending Tree without a myriad of error logs.
+    // I eventually decided to simplify it and make it so that the Transaction tree would simply go back to the beginning, the Root.
+
     [Task]
     public void InitializeTransaction()
     {
@@ -402,7 +408,20 @@ public class PotionMakerClass : MonoBehaviour
             canMoveRandomly = true;
             approachButtonAffected = true;
             navAgent.ResetPath();
+
+            Task.current.Succeed();
         }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
+    [Task]
+    public void RestartAgent()
+    {
+        pandaB.Reset();
+        Task.current.Succeed();
     }
 
     #endregion

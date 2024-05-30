@@ -42,8 +42,6 @@ tree("PotionInquiry")
 tree("Transaction")
 	sequence
 		InitializeTransaction
-		repeat
-			sequence
-				CheckPaid
-				SayFarewell
-				tree("Idle")
+		CheckPaid
+		SayFarewell
+		RestartAgent

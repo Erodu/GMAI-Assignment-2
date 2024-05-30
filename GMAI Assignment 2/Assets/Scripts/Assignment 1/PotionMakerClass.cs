@@ -401,6 +401,7 @@ public class PotionMakerClass : MonoBehaviour
             btn_Pay.SetActive(false);
             canMoveRandomly = true;
             approachButtonAffected = true;
+            navAgent.ResetPath();
         }
     }
 

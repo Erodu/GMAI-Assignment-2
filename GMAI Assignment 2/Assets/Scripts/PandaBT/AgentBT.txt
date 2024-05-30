@@ -27,4 +27,19 @@ tree("Attending")
 				tree("Idle")
 
 tree("PotionInquiry")
-	InitializeInquiry
+	sequence
+		InitializeInquiry
+		repeat
+			fallback
+				sequence
+					CheckHealingOption
+					tree("Transaction")
+				sequence
+					CheckArcaneOption
+				sequence
+					CheckThirdOption
+
+tree("Transaction")
+	sequence
+		InitializeTransaction
+		CheckPaid

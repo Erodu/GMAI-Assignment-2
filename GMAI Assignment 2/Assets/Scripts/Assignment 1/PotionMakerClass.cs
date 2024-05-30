@@ -64,6 +64,7 @@ public class PotionMakerClass : MonoBehaviour
     bool customerChoseHealing = false;
     bool customerChoseArcane = false;
     bool customerChoseThirdPotion = false;
+    bool customerPaid = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -221,7 +222,6 @@ public class PotionMakerClass : MonoBehaviour
 
     private IEnumerator InquiryRepeat() // Brute forcing the CheckCustomerInquired task to repeat, since the repeat node is not working for some reason.
     {
-        Debug.Log("Repeating!");
         while (customerInquired == false)
         {
             if (customerInquired == true)
@@ -268,39 +268,137 @@ public class PotionMakerClass : MonoBehaviour
         btn_Arcane.SetActive(true);
         btn_ThirdPotion.SetActive(true);
         Task.current.Succeed();
-        //if (customerInquired == true)
-        //{
-        //    customerInquired = false;
-        //    btn_Inquire.SetActive(false);
-        //    btn_Leave.SetActive(false);
-        //    Debug.Log("[EXPAND FOR FULL TEXT] 'I have about three potions for today, but only two types are readily available.'\n" +
-        //        "'First off, there's our healing potions, which are prepared already and have a flat fee of 10 gold pieces each!'\n" +
-        //        "'Then we have a rather new one! A Potion of Arcane Excellence. But since it's new, I'd have to check if I actually have the components, and refresh myself on how to make it.'\n" +
-        //        "'The third one... Well, I know for sure I'm missing something for that one.'");
+    }
 
-        //    btn_Healing.SetActive(true);
-        //    btn_Arcane.SetActive(true);
-        //    btn_ThirdPotion.SetActive(true);
+    [Task]
+    public void CheckHealingOption()
+    {
+        //Debug.Log("Running");
+        //if (customerChoseHealing)
+        //{
+        //    customerChoseHealing = false;
         //    Task.current.Succeed();
         //}
         //else
         //{
         //    Task.current.Fail();
         //}
+        StartCoroutine(HealingRepeat());
+    }
+
+    private IEnumerator HealingRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (customerChoseHealing == false)
+        {
+            if (customerChoseHealing == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
+    }
+
+    [Task]
+    public void CheckArcaneOption()
+    {
+        //if (customerChoseArcane)
+        //{
+        //    customerChoseArcane = false;
+        //    Task.current.Succeed();
+        //}
+        //else
+        //{
+        //    Task.current.Fail();
+        //}
+        StartCoroutine(ArcaneRepeat());
+    }
+
+    private IEnumerator ArcaneRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (customerChoseArcane == false)
+        {
+            if (customerChoseArcane == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
+    }
+
+    [Task]
+    public void CheckThirdOption()
+    {
+        //if (customerChoseThirdPotion)
+        //{
+        //    customerChoseThirdPotion = false;
+        //    Task.current.Succeed();
+        //}
+        //else
+        //{
+        //    Task.current.Fail();
+        //}
+        StartCoroutine(ThirdOptionRepeat());
+    }
+
+    private IEnumerator ThirdOptionRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (customerChoseThirdPotion == false)
+        {
+            if (customerChoseThirdPotion == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
     }
 
     #endregion
 
-    //#region Functions & Tasks for All Trees
+    #region Transaction Tree and Related Code
 
-    //[Task]
-    //public void ChangeTree(string tree)
-    //{
-    //    // Code
-    //    Task.current.Succeed();
-    //}
+    [Task]
+    public void InitializeTransaction()
+    {
+        if (customerChoseHealing)
+        {
+            Debug.Log("The potion maker presents the potion.\n" +
+                "Alright! I'll just wait for the gold.");
+            customerChoseHealing = false;
+            btn_Healing.SetActive(false);
+            btn_Arcane.SetActive(false);
+            btn_ThirdPotion.SetActive(false);
+            btn_Pay.SetActive(true);
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
 
-    //#endregion
+    [Task]
+    public void CheckPaid()
+    {
+        StartCoroutine(TransactionRepeat());
+    }
+
+    private IEnumerator TransactionRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (customerPaid == false)
+        {
+            if (customerPaid == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
+    }
+
+    #endregion
 
     #region New Button Functions
 
@@ -340,6 +438,11 @@ public class PotionMakerClass : MonoBehaviour
     public void DoThirdPotion()
     {
         customerChoseThirdPotion = true;
+    }
+
+    public void DoPay()
+    {
+        customerPaid = true;
     }
 
     #endregion
@@ -413,17 +516,6 @@ public class PotionMakerClass : MonoBehaviour
             if (m_Current.GetType() == typeof(CheckComponentsState))
             {
                 ((CheckComponentsState)m_Current).ChooseBackOption();
-            }
-        }
-    }
-
-    public void PayOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(TransactionState))
-            {
-                ((TransactionState)m_Current).PayForPotion();
             }
         }
     }

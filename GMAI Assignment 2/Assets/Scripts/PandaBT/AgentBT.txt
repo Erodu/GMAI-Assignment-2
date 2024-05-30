@@ -31,7 +31,7 @@ tree("PotionInquiry")
 	sequence
 		InitializeInquiry
 		repeat
-			fallback
+			parallel
 				sequence
 					CheckHealingOption
 					tree("Transaction")

@@ -465,6 +465,7 @@ public class PotionMakerClass : MonoBehaviour
             btn_Arcane.SetActive(false);
             btn_ThirdPotion.SetActive(false);
             timerText.gameObject.SetActive(true);
+            Task.current.Succeed();
         }
         else
         {
@@ -479,16 +480,23 @@ public class PotionMakerClass : MonoBehaviour
         {
             canMoveRandomly = false;
             navAgent.SetDestination(locations[1].position); // Element 1 is the Study Location.
-            if (transform.position == locations[1].position)
-            {
-                StartCoroutine(StudyTimer(5f));
-            }
+            StartCoroutine(WaitUntilArriveAtStudy(locations[1].position));
         }
         else
         {
             Debug.Log("No location to move to.");
             Task.current.Fail();
         }
+    }
+
+    private IEnumerator WaitUntilArriveAtStudy(Vector3 destination)
+    {
+        while (navAgent.pathPending || navAgent.remainingDistance > navAgent.stoppingDistance)
+        {
+            yield return null;
+        }
+
+        StartCoroutine(StudyTimer(5f));
     }
 
     private IEnumerator StudyTimer(float duration)

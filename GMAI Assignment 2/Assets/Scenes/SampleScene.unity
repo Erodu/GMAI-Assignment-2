@@ -811,7 +811,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 1341531452391472475, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ProceedOnClick
+      value: DoProceed
       objectReference: {fileID: 0}
     - target: {fileID: 1837854981066069144, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -883,7 +883,7 @@ PrefabInstance:
       objectReference: {fileID: 1618250833}
     - target: {fileID: 5963409863402097844, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackOnClick
+      value: DoBack
       objectReference: {fileID: 0}
     - target: {fileID: 6530161757602220833, guid: 701f09dd6c424b04ea9e3c2d3ebd494d, type: 3}
       propertyPath: m_Pivot.x

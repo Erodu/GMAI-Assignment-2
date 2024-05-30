@@ -52,3 +52,19 @@ tree("Studying")
 	sequence
 		InitializeStudy
 		MoveAndStudy
+		tree("CheckComponents")
+
+tree("CheckComponents")
+	sequence
+		MoveAndCheck
+		ConfirmWithCustomer
+		parallel
+			sequence
+				CheckProceed
+				tree("Brewing")
+			sequence
+				CheckBack
+				SayFarewell
+				RestartAgent
+
+tree("Brewing")

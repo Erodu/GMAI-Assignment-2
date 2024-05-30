@@ -453,6 +453,66 @@ public class PotionMakerClass : MonoBehaviour
 
     #endregion
 
+    #region Studying Tree and Related Code
+
+    [Task]
+    public void InitializeStudy()
+    {
+        if (customerChoseArcane)
+        {
+            customerChoseArcane = false;
+            btn_Healing.SetActive(false);
+            btn_Arcane.SetActive(false);
+            btn_ThirdPotion.SetActive(false);
+            timerText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
+    [Task]
+    public void MoveAndStudy()
+    {
+        if (locations.Length > 0 && navAgent != null)
+        {
+            canMoveRandomly = false;
+            navAgent.SetDestination(locations[1].position); // Element 1 is the Study Location.
+            if (transform.position == locations[1].position)
+            {
+                StartCoroutine(StudyTimer(5f));
+            }
+        }
+        else
+        {
+            Debug.Log("No location to move to.");
+            Task.current.Fail();
+        }
+    }
+
+    private IEnumerator StudyTimer(float duration)
+    {
+        float timer = duration;
+
+        // Continue while there is still time.
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            // To give the player feedback, we put out the time left. "0.0" rounds the result to one decimal's place.
+            timerText.text = "Time left for study: " + timer.ToString("0.0");
+            yield return null;
+        }
+        // After the timer is done, change state to Check Component State.
+        if (timer <= 0)
+        {
+            Task.current.Succeed();
+        }
+    }
+
+    #endregion
+
     #region New Button Functions
 
     public void DoApproach()

@@ -37,6 +37,7 @@ tree("PotionInquiry")
 					tree("Transaction")
 				sequence
 					CheckArcaneOption
+					tree("Studying")
 				sequence
 					CheckThirdOption
 
@@ -46,3 +47,8 @@ tree("Transaction")
 		CheckPaid
 		SayFarewell
 		RestartAgent
+
+tree("Studying")
+	sequence
+		InitializeStudy
+		MoveAndStudy

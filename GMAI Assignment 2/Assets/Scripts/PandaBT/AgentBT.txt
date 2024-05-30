@@ -2,6 +2,7 @@ tree("Root")
 	repeat
 		fallback
 			tree("Approached")
+			tree("Transaction")
 			tree("Attending")
 			tree("Idle")
 
@@ -43,3 +44,4 @@ tree("Transaction")
 	sequence
 		InitializeTransaction
 		CheckPaid
+		BackToAttendingTree

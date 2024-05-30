@@ -133,13 +133,6 @@ public class PotionMakerClass : MonoBehaviour
     #region Approached Tasks and Related Code
 
     [Task]
-    public void ApproachDebug()
-    {
-        Debug.Log("Approached Tree now!");
-        Task.current.Succeed();
-    }
-
-    [Task]
     public void CheckApproach()
     {
         if (customerApproached == true)
@@ -398,6 +391,23 @@ public class PotionMakerClass : MonoBehaviour
         Task.current.Succeed();
     }
 
+    [Task]
+    public void BackToAttendingTree()
+    {
+        if (customerPaid)
+        {
+            customerPaid = false;
+            btn_Pay.SetActive(false);
+            btn_Inquire.SetActive(true);
+            btn_Leave.SetActive(true);
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
     #endregion
 
     #region New Button Functions
@@ -415,9 +425,7 @@ public class PotionMakerClass : MonoBehaviour
 
     public void DoInquire()
     {
-        Debug.Log("Clicked");
         customerInquired = true;
-        Debug.Log(customerInquired);
     }
 
     public void DoLeave()

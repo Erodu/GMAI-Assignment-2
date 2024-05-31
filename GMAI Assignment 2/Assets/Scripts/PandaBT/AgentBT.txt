@@ -79,6 +79,7 @@ tree("Brewing")
 				tree("Cleaning")
 			sequence
 				CheckFail
+				tree("Failed")
 
 tree("Cleaning")
 	sequence
@@ -87,3 +88,14 @@ tree("Cleaning")
 		sequence
 			MoveToCounterAfterBrewing
 			tree("Transaction")
+
+tree("Failed")
+	sequence
+		InitializeFailed
+		parallel
+			sequence
+				CheckContinue
+				tree("Brewing")
+			sequence
+				CheckAbandon
+				RestartAgent

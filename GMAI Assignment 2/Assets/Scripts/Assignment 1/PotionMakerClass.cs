@@ -84,6 +84,8 @@ public class PotionMakerClass : MonoBehaviour
     bool studyComplete = false;
     bool checkComplete = false;
     bool cleaningComplete = false;
+    bool customerContinue = false;
+    bool customerAbandon = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -790,7 +792,7 @@ public class PotionMakerClass : MonoBehaviour
         // Random check to see if the brewing process is successful or not. Getting anything more than 2 is a success, but otherwise triggers a failstate.
         int brewCheck = Random.Range(0, 11);
 
-        if (brewCheck > 2f)
+        if (brewCheck > 8f)
         {
             brewSuccessful = true;
         }
@@ -834,7 +836,6 @@ public class PotionMakerClass : MonoBehaviour
     {
         if (brewFailed)
         {
-            brewFailed = false;
             Task.current.Succeed();
             return;
         }
@@ -939,6 +940,68 @@ public class PotionMakerClass : MonoBehaviour
 
     #endregion
 
+    #region Failed Tree and Related Code
+
+    [Task]
+    public void InitializeFailed()
+    {
+        if (brewFailed)
+        {
+            Debug.Log("'Dang... Could have sworn that I was gonna be successful, but this potion is experimental. If you want, I can retry it, or you can choose something else.'");
+            btn_Continue.SetActive(true);
+            btn_Abandon.SetActive(true);
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
+        }
+    }
+
+    [Task]
+    public void CheckContinue()
+    {
+        if (customerContinue)
+        {
+            Debug.Log("Okay, let's try again!");
+            customerContinue = false;
+            Task.current.Succeed();
+            return;
+        }
+        StartCoroutine(ContinueRepeat());
+    }
+
+    private IEnumerator ContinueRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (!customerContinue)
+        {
+            yield return null;
+        }
+    }
+
+    [Task]
+    public void CheckAbandon()
+    {
+        if (customerAbandon)
+        {
+            Debug.Log("Okay, sorry about that. Do let me know if I can help with anything else?");
+            customerAbandon = false;
+            Task.current.Succeed();
+            return;
+        }
+        StartCoroutine(AbandonRepeat());
+    }
+
+    private IEnumerator AbandonRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (!customerAbandon)
+        {
+            yield return null;
+        }
+    }
+
+    #endregion
+
     #region New Button Functions
 
     public void DoApproach()
@@ -992,6 +1055,16 @@ public class PotionMakerClass : MonoBehaviour
         customerBack = true;
     }
 
+    public void DoContinue()
+    {
+        customerContinue = true;
+    }
+
+    public void DoAbandon()
+    {
+        customerAbandon = true;
+    }
+
     #endregion
 
     #region OnClick Functions from Assignment 1
@@ -1019,28 +1092,6 @@ public class PotionMakerClass : MonoBehaviour
             if (m_Current.GetType() == typeof(RequestingState))
             {
                 ((RequestingState)m_Current).DoNotGiveSpike();
-            }
-        }
-    }
-
-    public void ContinueOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(FailedState))
-            {
-                ((FailedState)m_Current).ContinueBrewing();
-            }
-        }
-    }
-
-    public void AbandonOnClick()
-    {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(FailedState))
-            {
-                ((FailedState)m_Current).AbandonBrewing();
             }
         }
     }

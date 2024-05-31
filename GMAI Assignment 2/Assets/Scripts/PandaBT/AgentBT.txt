@@ -3,6 +3,7 @@ tree("Root")
 		fallback
 			tree("Approached")
 			tree("Attending")
+			tree("RetryBrewing")
 			tree("Idle")
 
 tree("Idle")
@@ -95,7 +96,11 @@ tree("Failed")
 		parallel
 			sequence
 				CheckContinue
-				tree("Brewing")
 			sequence
 				CheckAbandon
 				RestartAgent
+
+tree("RetryBrewing")
+	sequence
+		InitializeRetryBrewing
+		tree("Brewing")

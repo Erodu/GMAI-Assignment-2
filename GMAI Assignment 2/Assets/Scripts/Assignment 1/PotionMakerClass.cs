@@ -964,7 +964,6 @@ public class PotionMakerClass : MonoBehaviour
         if (customerContinue)
         {
             Debug.Log("Okay, let's try again!");
-            customerContinue = false;
             Task.current.Succeed();
             return;
         }
@@ -984,7 +983,7 @@ public class PotionMakerClass : MonoBehaviour
     {
         if (customerAbandon)
         {
-            Debug.Log("Okay, sorry about that. Do let me know if I can help with anything else?");
+            Debug.Log("Okay, sorry about that. Do let me know if I can help with anything else.");
             customerAbandon = false;
             Task.current.Succeed();
             return;
@@ -997,6 +996,24 @@ public class PotionMakerClass : MonoBehaviour
         while (!customerAbandon)
         {
             yield return null;
+        }
+    }
+
+    #endregion
+
+    #region Retry Brewing and Related Code
+
+    [Task]
+    public void InitializeRetryBrewing()
+    {
+        if (customerContinue)
+        {
+            customerContinue = false;
+            Task.current.Succeed();
+        }
+        else
+        {
+            Task.current.Fail();
         }
     }
 

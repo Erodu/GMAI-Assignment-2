@@ -26,7 +26,7 @@ public class TransactionState : PotionMakerStates
             // Set isOneSession to true, so that when going back to the Attending State the Potion Maker will respond with something else.
             m_PotionMaker.inOneSession = true;
             m_PotionMaker.btn_Pay.SetActive(false);
-            m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
         }
     }
 

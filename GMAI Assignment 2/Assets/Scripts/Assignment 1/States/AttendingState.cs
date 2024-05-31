@@ -35,7 +35,7 @@ public class AttendingState : PotionMakerStates
         {
             m_PotionMaker.btn_Inquire.SetActive(false);
             m_PotionMaker.btn_Leave.SetActive(false);
-            m_PotionMaker.ChangeState(new PotionInquiryState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new PotionInquiryState(m_PotionMaker));
         }
     }
 
@@ -64,11 +64,11 @@ public class AttendingState : PotionMakerStates
         m_PotionMaker.inOneSession = false;
         if (m_PotionMaker.dirty == true)
         {
-            m_PotionMaker.ChangeState(new CleaningState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new CleaningState(m_PotionMaker));
         }
         else
         {
-            m_PotionMaker.ChangeState(new IdleState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new IdleState(m_PotionMaker));
         }
     }
 }

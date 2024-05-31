@@ -24,11 +24,11 @@ public class BrewingState : PotionMakerStates
     {
         if (brewSuccessful == true)
         {
-            m_PotionMaker.ChangeState(new TransactionState(m_PotionMaker));
+           // m_PotionMaker.ChangeState(new TransactionState(m_PotionMaker));
         }
         else if (brewFailed == true)
         {
-            m_PotionMaker.ChangeState(new FailedState(m_PotionMaker));
+           // m_PotionMaker.ChangeState(new FailedState(m_PotionMaker));
         }
     }
 

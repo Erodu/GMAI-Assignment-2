@@ -27,13 +27,13 @@ public class RequestingState : PotionMakerStates
         {
             m_PotionMaker.btn_Give.SetActive(false);
             m_PotionMaker.btn_NoGive.SetActive(false);
-            m_PotionMaker.ChangeState(new BrewingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new BrewingState(m_PotionMaker));
         }
         else if (didNotGiveSpike == true)
         {
             m_PotionMaker.btn_Give.SetActive(false);
             m_PotionMaker.btn_NoGive.SetActive(false);
-            m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
         }
     }
 

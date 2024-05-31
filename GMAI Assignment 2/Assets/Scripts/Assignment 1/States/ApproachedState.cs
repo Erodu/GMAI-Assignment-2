@@ -24,7 +24,7 @@ public class ApproachedState : PotionMakerStates
         {
             // Logic for transitioning into the next state.
             m_PotionMaker.btn_Talk.SetActive(false);
-            m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
         }
         else
         {

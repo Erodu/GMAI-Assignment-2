@@ -44,7 +44,7 @@ public class StudyingState : PotionMakerStates
         // After the timer is done, change state to Check Component State.
         if (timer <= 0)
         {
-            m_PotionMaker.ChangeState(new CheckComponentsState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new CheckComponentsState(m_PotionMaker));
         }
     }
 }

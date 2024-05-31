@@ -3,7 +3,6 @@ tree("Root")
 		fallback
 			tree("Approached")
 			tree("Attending")
-			tree("RetryBrewing")
 			tree("Idle")
 
 tree("Idle")
@@ -41,6 +40,7 @@ tree("PotionInquiry")
 					tree("Studying")
 				sequence
 					CheckThirdOption
+					tree("Requesting")
 
 tree("Transaction")
 	sequence
@@ -96,11 +96,19 @@ tree("Failed")
 		parallel
 			sequence
 				CheckContinue
+				CheckRetry
+				tree("Cleaning")
 			sequence
 				CheckAbandon
 				RestartAgent
 
-tree("RetryBrewing")
+tree("Requesting")
 	sequence
-		InitializeRetryBrewing
-		tree("Brewing")
+		InitializeRequesting
+		parallel
+			sequence
+				CheckGive
+				tree("Brewing")
+			sequence
+				CheckNoGive
+				RestartAgent

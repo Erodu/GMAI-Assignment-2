@@ -45,7 +45,7 @@ public class CleaningState : PotionMakerStates
         {
             m_PotionMaker.timerText.gameObject.SetActive(false); // Disable the timer text.
             m_PotionMaker.dirty = false;
-            m_PotionMaker.ChangeState(new IdleState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new IdleState(m_PotionMaker));
         }
     }
 }

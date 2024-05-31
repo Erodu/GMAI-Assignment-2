@@ -26,7 +26,7 @@ public class FailedState : PotionMakerStates
             // If the player chooses to continue, go back to Brewing State.
             m_PotionMaker.btn_Continue.SetActive(false);
             m_PotionMaker.btn_Abandon.SetActive(false);
-            m_PotionMaker.ChangeState(new BrewingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new BrewingState(m_PotionMaker));
         }
         else if (choseToAbandon == true)
         {
@@ -34,7 +34,7 @@ public class FailedState : PotionMakerStates
             m_PotionMaker.btn_Continue.SetActive(false);
             m_PotionMaker.btn_Abandon.SetActive(false);
             m_PotionMaker.inOneSession = true;
-            m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
         }
     }
 

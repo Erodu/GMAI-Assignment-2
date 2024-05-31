@@ -29,14 +29,14 @@ public class CheckComponentsState : PotionMakerStates
         {
             m_PotionMaker.btn_Proceed.SetActive(false);
             m_PotionMaker.btn_Back.SetActive(false);
-            m_PotionMaker.ChangeState(new BrewingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new BrewingState(m_PotionMaker));
         }
         else if (choseBack == true)
         {
             m_PotionMaker.inOneSession = true;
             m_PotionMaker.btn_Proceed.SetActive(false);
             m_PotionMaker.btn_Back.SetActive(false);
-            m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new AttendingState(m_PotionMaker));
         }
     }
 

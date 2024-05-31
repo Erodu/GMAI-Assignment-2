@@ -8,22 +8,6 @@ using Panda;
 
 public class PotionMakerClass : MonoBehaviour
 {
-    #region States
-    /*------- v STATES v -------*/
-    public PotionMakerStates m_Idle { get; set; } = null;
-    public PotionMakerStates m_Brewing { get; set; } = null;
-    public PotionMakerStates m_Requesting { get; set; } = null;
-    public PotionMakerStates m_Studying { get; set; } = null;
-    public PotionMakerStates m_CheckComponents { get; set; } = null;
-    public PotionMakerStates m_Transaction { get; set; } = null;
-    public PotionMakerStates m_PotionInquiry { get; set; } = null;
-    public PotionMakerStates m_Failed { get; set; } = null;
-    public PotionMakerStates m_Cleaning { get; set; } = null;
-    public PotionMakerStates m_Approached { get; set; } = null;
-    public PotionMakerStates m_Attending { get; set; } = null;
-    public PotionMakerStates m_Current { get; set; } = null;
-
-    #endregion
 
     #region Buttons
 
@@ -70,6 +54,8 @@ public class PotionMakerClass : MonoBehaviour
     bool brewFailed = false;
 
     #endregion
+
+    #region Important Bools for Buttons
     /* --- v IMPORTANT BOOLS FOR BUTTONS v --- */
     bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
     bool customerTalked = false; // Replacing the isTalkedTo variable in the ApproachedState.cs script.
@@ -86,27 +72,27 @@ public class PotionMakerClass : MonoBehaviour
     bool cleaningComplete = false;
     bool customerContinue = false;
     bool customerAbandon = false;
+    bool retrySuccess = false;
+    bool customerGive = false;
+    bool customerNoGive = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         //First, initialize into the Idle State (a.k.a the opening state).
-        m_Idle = new IdleState(this);
-        m_Current = m_Idle;
-        m_Current.Enter();
+        //m_Idle = new IdleState(this);
+        //m_Current = m_Idle;
+        //m_Current.Enter();
         inOneSession = false;
         isThirdPotion = false;
         dirty = false;
 
         navAgent = GetComponent<NavMeshAgent>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //m_Current.Execute();
-    }
+    
     #region Idle Tasks and Related Code
     [Task]
     public void EnterIdleState()
@@ -732,6 +718,7 @@ public class PotionMakerClass : MonoBehaviour
     {
         if (locations.Length > 0 && navAgent != null)
         {
+            timerText.gameObject.SetActive(true);
             Debug.Log("'Alright then! Wait here while I do my magic!' The potion maker begins her careful process.");
             btn_Proceed.SetActive(false);
             btn_Back.SetActive(false);
@@ -778,7 +765,6 @@ public class PotionMakerClass : MonoBehaviour
                 brewSuccessful = true; // Automatically set it to true if the player is making the third potion.
                 // Make sure that the isThirdPotion bool does not remain true for the rest of this bot's runtime.
                 isThirdPotion = false;
-                Task.current.Succeed();
             }
             else
             {
@@ -792,7 +778,7 @@ public class PotionMakerClass : MonoBehaviour
         // Random check to see if the brewing process is successful or not. Getting anything more than 2 is a success, but otherwise triggers a failstate.
         int brewCheck = Random.Range(0, 11);
 
-        if (brewCheck > 8f)
+        if (brewCheck > 2f)
         {
             brewSuccessful = true;
         }
@@ -963,7 +949,11 @@ public class PotionMakerClass : MonoBehaviour
     {
         if (customerContinue)
         {
+            btn_Continue.SetActive(false);
+            btn_Abandon.SetActive(false);
+            customerContinue = false;
             Debug.Log("Okay, let's try again!");
+            StartCoroutine(RetryBrewingTimer(5f));
             Task.current.Succeed();
             return;
         }
@@ -979,11 +969,53 @@ public class PotionMakerClass : MonoBehaviour
     }
 
     [Task]
+    public void CheckRetry()
+    {
+        if (retrySuccess)
+        {
+            retrySuccess = false;
+            Debug.Log("There, got the hang of it.");
+            Task.current.Succeed();
+        }
+        StartCoroutine(RetryRepeat());
+    }
+
+    private IEnumerator RetryRepeat()
+    {
+        while (!retrySuccess)
+        {
+            yield return null;
+        }
+    }
+
+    private IEnumerator RetryBrewingTimer(float duration)
+    {
+        float timer = duration;
+
+        // Continue while there is still time.
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            // To give the player feedback, we put out the time left. "0.0" rounds the result to one decimal's place.
+            timerText.text = "Time left for retrying brewing: " + timer.ToString("0.0");
+            yield return null;
+        }
+        // After the timer is done, we roll for success.
+        if (timer <= 0)
+        {
+            retrySuccess = true;
+        }
+    }
+
+    [Task]
     public void CheckAbandon()
     {
         if (customerAbandon)
         {
             Debug.Log("Okay, sorry about that. Do let me know if I can help with anything else.");
+            btn_Continue.SetActive(false);
+            btn_Abandon.SetActive(false);
             customerAbandon = false;
             Task.current.Succeed();
             return;
@@ -1001,19 +1033,73 @@ public class PotionMakerClass : MonoBehaviour
 
     #endregion
 
-    #region Retry Brewing and Related Code
+    #region Requesting State and Related Code
 
     [Task]
-    public void InitializeRetryBrewing()
+    public void InitializeRequesting()
     {
-        if (customerContinue)
+        if (customerChoseThirdPotion)
         {
-            customerContinue = false;
+            isThirdPotion = true;
+            customerChoseThirdPotion = false;
+            btn_Healing.SetActive(false);
+            btn_Arcane.SetActive(false);
+            btn_ThirdPotion.SetActive(false);
+            btn_Give.SetActive(true);
+            btn_NoGive.SetActive(true);
+            Debug.Log("[EXPAND FOR FULL TEXT] 'Well, it's a Potion of Wyvern Poison Resistance, and I can guarantee success with brewing it. The problem is that I don't have a key ingredient: a spike from a Wyvern's Tail.'\n" +
+                "She looks at your pouch, seeing a very familiar sight. '...But it seems that somehow you have one? I mean, you're an adventurer so I guess it wouldn't be uncommon for you to have it. Either way, I can make one for you, but I'd need your wyvern spike! How about it? I'll even give a discount.'");
             Task.current.Succeed();
         }
         else
         {
             Task.current.Fail();
+        }
+    }
+
+    [Task]
+    public void CheckGive()
+    {
+        if (customerGive)
+        {
+            Debug.Log("Thanks! Let's get cooking.");
+            btn_Give.SetActive(false);
+            btn_NoGive.SetActive(false);
+            customerGive = false;
+            Task.current.Succeed();
+            return;
+        }
+        StartCoroutine(GiveRepeat());
+    }
+
+    private IEnumerator GiveRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (!customerGive)
+        {
+            yield return null;
+        }
+    }
+
+    [Task]
+    public void CheckNoGive()
+    {
+        if (customerNoGive)
+        {
+            Debug.Log("Understandable. Let me know if I can help you with anything else.");
+            btn_Give.SetActive(false);
+            btn_NoGive.SetActive(false);
+            customerNoGive = false;
+            Task.current.Succeed();
+            return;
+        }
+        StartCoroutine(NoGiveRepeat());
+    }
+
+    private IEnumerator NoGiveRepeat()
+    {
+        while (!customerNoGive)
+        {
+            yield return null;
         }
     }
 
@@ -1082,50 +1168,17 @@ public class PotionMakerClass : MonoBehaviour
         customerAbandon = true;
     }
 
-    #endregion
-
-    #region OnClick Functions from Assignment 1
-
-    // The following OnClick functions (like ApproachOnClick, TalkOnClick and InquireOnClick) are all here
-    // so that we can call them from our buttons' OnClick functions from Unity.
-    // We can't normally just call the functions that are called within these OnClicks since they are stored inside
-    // the state scripts themselves, and PotionMakerStates and its subclasses are not attached to any GameObject.
-
-    public void GiveOnClick()
+    public void DoGive()
     {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(RequestingState))
-            {
-                ((RequestingState)m_Current).GiveWyvernSpike();
-            }
-        }
+        customerGive = true;
     }
 
-    public void NoGiveOnClick()
+    public void DoNotGive()
     {
-        if (m_Current != null)
-        {
-            if (m_Current.GetType() == typeof(RequestingState))
-            {
-                ((RequestingState)m_Current).DoNotGiveSpike();
-            }
-        }
+        customerNoGive = true;
     }
 
     #endregion
-
-    public void ChangeState(PotionMakerStates nextState)
-    {
-        // If we do have a state under m_Current, run the Exit().
-        if (m_Current != null)
-        {
-            m_Current.Exit();
-        }
-
-        m_Current = nextState;
-        m_Current.Enter();
-    }
 
 
 }

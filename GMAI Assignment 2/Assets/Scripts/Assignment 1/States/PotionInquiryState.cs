@@ -32,21 +32,21 @@ public class PotionInquiryState : PotionMakerStates
             m_PotionMaker.btn_Healing.SetActive(false);
             m_PotionMaker.btn_Arcane.SetActive(false);
             m_PotionMaker.btn_ThirdPotion.SetActive(false);
-            m_PotionMaker.ChangeState(new TransactionState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new TransactionState(m_PotionMaker));
         }
         else if (choseArcane == true)
         {
             m_PotionMaker.btn_Healing.SetActive(false);
             m_PotionMaker.btn_Arcane.SetActive(false);
             m_PotionMaker.btn_ThirdPotion.SetActive(false);
-            m_PotionMaker.ChangeState(new StudyingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new StudyingState(m_PotionMaker));
         }
         else if (choseThird == true)
         {
             m_PotionMaker.btn_Healing.SetActive(false);
             m_PotionMaker.btn_Arcane.SetActive(false);
             m_PotionMaker.btn_ThirdPotion.SetActive(false);
-            m_PotionMaker.ChangeState(new RequestingState(m_PotionMaker));
+            //m_PotionMaker.ChangeState(new RequestingState(m_PotionMaker));
         }
     }
 

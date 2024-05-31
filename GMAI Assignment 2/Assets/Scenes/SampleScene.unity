@@ -2449,6 +2449,7 @@ MonoBehaviour:
   - {fileID: 1665098376}
   - {fileID: 662660782}
   - {fileID: 1355799394}
+  player: {fileID: 1393531698}
   approachButtonAffected: 1
 --- !u!114 &1618250834
 MonoBehaviour:

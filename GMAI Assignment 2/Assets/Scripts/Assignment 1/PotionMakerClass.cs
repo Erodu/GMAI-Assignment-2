@@ -53,6 +53,10 @@ public class PotionMakerClass : MonoBehaviour
     bool brewSuccessful = false;
     bool brewFailed = false;
 
+    float proximity = 1.5f; // For stopping while near the player.
+    public Transform player;
+    Collider[] hitColliders;
+
     #endregion
 
     #region Important Bools for Buttons
@@ -92,7 +96,26 @@ public class PotionMakerClass : MonoBehaviour
 
         navAgent = GetComponent<NavMeshAgent>();
     }
-    
+
+    private void Update()
+    {
+        hitColliders = Physics.OverlapSphere(transform.position, proximity);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.transform == player)
+            {
+                Debug.Log("Near");
+                navAgent.isStopped = true;
+            }
+            else
+            {
+                Debug.Log("Away");
+                navAgent.isStopped = false;
+            }
+        }
+    }
+
     #region Idle Tasks and Related Code
     [Task]
     public void EnterIdleState()

@@ -56,6 +56,9 @@ public class PotionMakerClass : MonoBehaviour
     float pathChangeDelayTime = 10f; // The amount of time that is between each location change in seconds.
 
     bool canMoveRandomly = true;
+
+    bool brewSuccessful = false;
+    bool brewFailed = false;
     /* --- v IMPORTANT BOOLS FOR BUTTONS v --- */
     bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
     bool customerTalked = false; // Replacing the isTalkedTo variable in the ApproachedState.cs script.
@@ -627,6 +630,64 @@ public class PotionMakerClass : MonoBehaviour
             yield return null;
         }
         Task.current.Succeed();
+    }
+
+    #endregion
+
+    #region Brewing Task and Related Code
+
+    [Task]
+    public void InitializeBrewing()
+    {
+        Debug.Log("'Alright then! Wait here while I do my magic!' The potion maker begins her careful process.");
+        btn_Proceed.SetActive(false);
+        btn_Back.SetActive(false);
+        StartCoroutine(BrewingTimer(10f));
+    }
+
+    private IEnumerator BrewingTimer(float duration)
+    {
+        float timer = duration;
+
+        // Continue while there is still time.
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            // To give the player feedback, we put out the time left. "0.0" rounds the result to one decimal's place.
+            timerText.text = "Time left for brewing: " + timer.ToString("0.0");
+            yield return null;
+        }
+        // After the timer is done, we roll for success.
+        if (timer <= 0)
+        {
+            timerText.gameObject.SetActive(false); // Disable the timer text.
+            if (isThirdPotion == true)
+            {
+                brewSuccessful = true; // Automatically set it to true if the player is making the third potion.
+                // Make sure that the isThirdPotion bool does not remain true for the rest of this bot's runtime.
+                isThirdPotion = false;
+            }
+            else
+            {
+                DecideSuccess();
+            }
+        }
+    }
+
+    private void DecideSuccess()
+    {
+        // Random check to see if the brewing process is successful or not. Getting anything more than 2 is a success, but otherwise triggers a failstate.
+        int brewCheck = Random.Range(0, 11);
+
+        if (brewCheck > 2f)
+        {
+            brewSuccessful = true;
+        }
+        else
+        {
+            brewFailed = true;
+        }
     }
 
     #endregion

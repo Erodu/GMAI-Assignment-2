@@ -8,6 +8,7 @@ using Panda;
 
 public class PotionMakerClass : MonoBehaviour
 {
+    #region States
     /*------- v STATES v -------*/
     public PotionMakerStates m_Idle { get; set; } = null;
     public PotionMakerStates m_Brewing { get; set; } = null;
@@ -21,6 +22,10 @@ public class PotionMakerClass : MonoBehaviour
     public PotionMakerStates m_Approached { get; set; } = null;
     public PotionMakerStates m_Attending { get; set; } = null;
     public PotionMakerStates m_Current { get; set; } = null;
+
+    #endregion
+
+    #region Buttons
 
     /*------- v BUTTONS v -------*/
     // All buttons here are meant to be disabled within the scene by default.
@@ -38,6 +43,10 @@ public class PotionMakerClass : MonoBehaviour
     public GameObject btn_Abandon; // For Failed -> Attending
     public GameObject btn_Back; // For Check Components -> Attending
     public GameObject btn_Pay; // For Transaction -> Attending
+
+    #endregion
+
+    #region Other Variables
 
     /*------- v OTHER VARIABLES v -------*/
     public bool inOneSession; // This variable is mainly for Transaction -> Attending, so that the potion maker asks something different if the player doesn't leave.
@@ -59,6 +68,8 @@ public class PotionMakerClass : MonoBehaviour
 
     bool brewSuccessful = false;
     bool brewFailed = false;
+
+    #endregion
     /* --- v IMPORTANT BOOLS FOR BUTTONS v --- */
     bool customerApproached = false; // Replacing the isBeingApproached variable in the IdleState.cs script.
     bool customerTalked = false; // Replacing the isTalkedTo variable in the ApproachedState.cs script.
@@ -70,6 +81,7 @@ public class PotionMakerClass : MonoBehaviour
     bool customerPaid = false;
     bool customerProceed = false;
     bool customerBack = false;
+    bool studyComplete = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -252,7 +264,6 @@ public class PotionMakerClass : MonoBehaviour
 
     private IEnumerator CheckLeftRepeat() 
     {
-        Debug.Log("Running");
         while (customerLeft == false)
         {
             if (customerLeft == true)
@@ -498,12 +509,32 @@ public class PotionMakerClass : MonoBehaviour
             canMoveRandomly = false;
             navAgent.SetDestination(locations[1].position); // Element 1 is the Study Location.
             StartCoroutine(WaitUntilArriveAtStudy());
+            Task.current.Succeed();
         }
         else
         {
             Debug.Log("No location to move to.");
             Task.current.Fail();
         }
+    }
+
+    [Task]
+    public void CheckStudy()
+    {
+        StartCoroutine(StudyRepeat());
+    }
+
+    private IEnumerator StudyRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (studyComplete == false)
+        {
+            if (studyComplete == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
     }
 
     private IEnumerator WaitUntilArriveAtStudy()
@@ -532,8 +563,14 @@ public class PotionMakerClass : MonoBehaviour
         // After the timer is done, change state to Check Component State.
         if (timer <= 0)
         {
-            Task.current.Succeed();
+            studyComplete = true;
         }
+    }
+
+    [Task]
+    public void TransitionToComponentTree()
+    {
+        Task.current.Succeed();
     }
 
     #endregion
@@ -582,7 +619,6 @@ public class PotionMakerClass : MonoBehaviour
         // After the timer is done, change state to Check Component State.
         if (timer <= 0)
         {
-            timerText.gameObject.SetActive(false); // Disable the timer text.
             Task.current.Succeed();
         }
     }
@@ -639,10 +675,30 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void InitializeBrewing()
     {
-        Debug.Log("'Alright then! Wait here while I do my magic!' The potion maker begins her careful process.");
-        btn_Proceed.SetActive(false);
-        btn_Back.SetActive(false);
-        StartCoroutine(BrewingTimer(10f));
+        if (locations.Length > 0 && navAgent != null)
+        {
+            Debug.Log("'Alright then! Wait here while I do my magic!' The potion maker begins her careful process.");
+            btn_Proceed.SetActive(false);
+            btn_Back.SetActive(false);
+            canMoveRandomly = false;
+            navAgent.SetDestination(locations[3].position); // Element 3 is the Brewing Location.
+            StartCoroutine(WaitUntilMoveToBrewing());
+        }
+        else
+        {
+            Debug.Log("No location to move to.");
+            Task.current.Fail();
+        }
+    }
+
+    private IEnumerator WaitUntilMoveToBrewing()
+    {
+        while (navAgent.pathPending || navAgent.remainingDistance > navAgent.stoppingDistance)
+        {
+            yield return null;
+        }
+
+        StartCoroutine(BrewingTimer(5f));
     }
 
     private IEnumerator BrewingTimer(float duration)
@@ -661,16 +717,17 @@ public class PotionMakerClass : MonoBehaviour
         // After the timer is done, we roll for success.
         if (timer <= 0)
         {
-            timerText.gameObject.SetActive(false); // Disable the timer text.
             if (isThirdPotion == true)
             {
                 brewSuccessful = true; // Automatically set it to true if the player is making the third potion.
                 // Make sure that the isThirdPotion bool does not remain true for the rest of this bot's runtime.
                 isThirdPotion = false;
+                Task.current.Succeed();
             }
             else
             {
                 DecideSuccess();
+                Task.current.Succeed();
             }
         }
     }
@@ -687,6 +744,77 @@ public class PotionMakerClass : MonoBehaviour
         else
         {
             brewFailed = true;
+        }
+    }
+
+    [Task]
+    public void CheckSuccess()
+    {
+        StartCoroutine(SuccessRepeat());
+    }
+
+    private IEnumerator SuccessRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (brewSuccessful == false)
+        {
+            if (brewSuccessful == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
+    }
+
+    [Task]
+    public void CheckFail()
+    {
+        StartCoroutine(FailRepeat());
+    }
+
+    private IEnumerator FailRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (brewFailed == false)
+        {
+            if (brewFailed == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
+    }
+
+    #endregion
+
+    #region Cleaning Tree and Related Code
+    // In this PandaBT version, the potion maker goes into cleaning directly after brewing.
+
+    [Task]
+    public void InitializeCleaning()
+    {
+        Debug.Log("Just need a bit of time for cleaning...");
+        StartCoroutine(CleaningTimer(10f));
+    }
+
+    private IEnumerator CleaningTimer(float duration)
+    {
+        float timer = duration;
+
+        // Continue while there is still time.
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            // To give the player feedback, we put out the time left. "0.0" rounds the result to one decimal's place.
+            timerText.text = "Time left for cleaning: " + timer.ToString("0.0");
+            yield return null;
+        }
+
+        if (timer <= 0)
+        {
+            timerText.gameObject.SetActive(false); // Disable the timer text.
+            Task.current.Succeed();
         }
     }
 

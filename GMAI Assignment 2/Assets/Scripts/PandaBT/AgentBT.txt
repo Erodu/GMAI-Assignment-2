@@ -52,6 +52,8 @@ tree("Studying")
 	sequence
 		InitializeStudy
 		MoveAndStudy
+		CheckStudy
+		TransitionToComponentTree
 		tree("CheckComponents")
 
 tree("CheckComponents")
@@ -70,3 +72,15 @@ tree("CheckComponents")
 tree("Brewing")
 	sequence
 		InitializeBrewing
+		parallel
+			sequence
+				CheckSuccess
+				tree("Cleaning")
+			sequence
+				CheckFail
+
+tree("Cleaning")
+	sequence
+		InitializeCleaning
+		MoveToCounter
+		tree("Transaction")

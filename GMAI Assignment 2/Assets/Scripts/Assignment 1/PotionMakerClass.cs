@@ -920,6 +920,22 @@ public class PotionMakerClass : MonoBehaviour
         }
     }
 
+    [Task]
+    public void MoveToCounterAfterBrewing()
+    {
+        if (locations.Length > 0 && navAgent != null)
+        {
+            canMoveRandomly = false;
+            navAgent.SetDestination(locations[0].position); // Element 0 is the Attending Location.
+            Task.current.Succeed();
+        }
+        else
+        {
+            Debug.Log("No location to move to.");
+            Task.current.Fail();
+        }
+    }
+
     #endregion
 
     #region New Button Functions

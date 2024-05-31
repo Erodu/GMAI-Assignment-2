@@ -84,5 +84,6 @@ tree("Cleaning")
 	sequence
 		InitializeCleaning
 		CheckCleaning
-		MoveToCounter
-		tree("Transaction")
+		sequence
+			MoveToCounterAfterBrewing
+			tree("Transaction")

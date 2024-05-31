@@ -523,20 +523,23 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckStudy()
     {
+        //StartCoroutine(StudyRepeat());
+        if (studyComplete)
+        {
+            studyComplete = false;
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(StudyRepeat());
     }
 
+    [Task]
     private IEnumerator StudyRepeat() // Continuing the trend of brute-forcing.
     {
-        while (studyComplete == false)
+        while (!studyComplete)
         {
-            if (studyComplete == true)
-            {
-                break;
-            }
             yield return null;
         }
-        Task.current.Succeed();
     }
 
     private IEnumerator WaitUntilArriveAtStudy()
@@ -593,20 +596,30 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void KeepChecking()
     {
+        if (checkComplete)
+        {
+            checkComplete = false;
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(CheckRepeat());
     }
 
     private IEnumerator CheckRepeat() // Continuing the trend of brute-forcing.
     {
-        while (checkComplete == false)
+        //while (checkComplete == false)
+        //{
+        //    if (checkComplete == true)
+        //    {
+        //        break;
+        //    }
+        //    yield return null;
+        //}
+        //Task.current.Succeed();
+        while (!checkComplete)
         {
-            if (checkComplete == true)
-            {
-                break;
-            }
             yield return null;
         }
-        Task.current.Succeed();
     }
 
     private IEnumerator WaitUntilArriveAtComponent()
@@ -651,39 +664,60 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckProceed()
     {
+        if (customerProceed)
+        {
+            customerProceed = false;
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(ProceedRepeat());
     }
     private IEnumerator ProceedRepeat() // Continuing the trend of brute-forcing.
     {
-        while (customerProceed == false)
+        //while (customerProceed == false)
+        //{
+        //    if (customerProceed == true)
+        //    {
+        //        break;
+        //    }
+        //    yield return null;
+        //}
+        //Task.current.Succeed();
+        while (!customerProceed)
         {
-            if (customerProceed == true)
-            {
-                break;
-            }
             yield return null;
         }
-        Task.current.Succeed();
     }
 
     [Task]
     public void CheckBack()
     {
+        if (customerBack)
+        {
+            timerText.gameObject.SetActive(false);
+            customerBack = false;
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(BackRepeat());
     }
 
     private IEnumerator BackRepeat() // Continuing the trend of brute-forcing.
     {
-        while (customerBack == false)
+        //while (customerBack == false)
+        //{
+        //    if (customerBack == true)
+        //    {
+        //        break;
+        //    }
+        //    yield return null;
+        //}
+        //timerText.gameObject.SetActive(false);
+        //Task.current.Succeed();
+        while (!customerBack)
         {
-            if (customerBack == true)
-            {
-                break;
-            }
             yield return null;
         }
-        timerText.gameObject.SetActive(false);
-        Task.current.Succeed();
     }
 
     #endregion
@@ -746,7 +780,6 @@ public class PotionMakerClass : MonoBehaviour
             else
             {
                 DecideSuccess();
-                Task.current.Succeed();
             }
         }
     }
@@ -769,39 +802,59 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckSuccess()
     {
+        if (brewSuccessful)
+        {
+            brewSuccessful = false;
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(SuccessRepeat());
     }
 
     private IEnumerator SuccessRepeat() // Continuing the trend of brute-forcing.
     {
-        while (brewSuccessful == false)
+        //while (brewSuccessful == false)
+        //{
+        //    if (brewSuccessful == true)
+        //    {
+        //        break;
+        //    }
+        //    yield return null;
+        //}
+        //Task.current.Succeed();
+        while (!brewSuccessful)
         {
-            if (brewSuccessful == true)
-            {
-                break;
-            }
             yield return null;
         }
-        Task.current.Succeed();
     }
 
     [Task]
     public void CheckFail()
     {
+        if (brewFailed)
+        {
+            brewFailed = false;
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(FailRepeat());
     }
 
     private IEnumerator FailRepeat() // Continuing the trend of brute-forcing.
     {
-        while (brewFailed == false)
+        //while (brewFailed == false)
+        //{
+        //    if (brewFailed == true)
+        //    {
+        //        break;
+        //    }
+        //    yield return null;
+        //}
+        //Task.current.Succeed();
+        while (!brewFailed)
         {
-            if (brewFailed == true)
-            {
-                break;
-            }
             yield return null;
         }
-        Task.current.Succeed();
     }
 
     #endregion
@@ -841,21 +894,30 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void CheckCleaning()
     {
+        if (cleaningComplete)
+        {
+            Task.current.Succeed();
+            return;
+        }
         StartCoroutine(CleaningRepeat());
     }
 
     private IEnumerator CleaningRepeat() // Continuing the trend of brute-forcing.
     {
-        while (cleaningComplete == false)
+        //while (cleaningComplete == false)
+        //{
+        //    if (cleaningComplete == true)
+        //    {
+        //        break;
+        //    }
+        //    yield return null;
+        //}
+        //cleaningComplete = false;
+        //Task.current.Succeed();
+        while (!cleaningComplete)
         {
-            if (cleaningComplete == true)
-            {
-                break;
-            }
             yield return null;
         }
-        cleaningComplete = false;
-        Task.current.Succeed();
     }
 
     #endregion

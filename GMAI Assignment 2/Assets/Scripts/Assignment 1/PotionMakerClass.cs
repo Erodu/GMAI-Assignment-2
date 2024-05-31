@@ -394,10 +394,11 @@ public class PotionMakerClass : MonoBehaviour
     [Task]
     public void InitializeTransaction()
     {
-        if (customerChoseHealing)
+        if (customerChoseHealing || cleaningComplete)
         {
             Debug.Log("The potion maker presents the potion.\n" +
                 "Alright! I'll just wait for the gold.");
+            cleaningComplete = false;
             customerChoseHealing = false;
             btn_Healing.SetActive(false);
             btn_Arcane.SetActive(false);

@@ -82,6 +82,8 @@ public class PotionMakerClass : MonoBehaviour
     bool customerProceed = false;
     bool customerBack = false;
     bool studyComplete = false;
+    bool checkComplete = false;
+    bool cleaningComplete = false;
     public bool approachButtonAffected = true; // Will decide if btn_Approach should be affected by CounterTriggerZone.cs.
 
     // Start is called before the first frame update
@@ -567,12 +569,6 @@ public class PotionMakerClass : MonoBehaviour
         }
     }
 
-    [Task]
-    public void TransitionToComponentTree()
-    {
-        Task.current.Succeed();
-    }
-
     #endregion
 
     #region Check Component Tree and Related Code
@@ -585,12 +581,32 @@ public class PotionMakerClass : MonoBehaviour
             canMoveRandomly = false;
             navAgent.SetDestination(locations[2].position); // Element 2 is the Component Location.
             StartCoroutine(WaitUntilArriveAtComponent());
+            Task.current.Succeed();
         }
         else
         {
             Debug.Log("No location to move to.");
             Task.current.Fail();
         }
+    }
+
+    [Task]
+    public void KeepChecking()
+    {
+        StartCoroutine(CheckRepeat());
+    }
+
+    private IEnumerator CheckRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (checkComplete == false)
+        {
+            if (checkComplete == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        Task.current.Succeed();
     }
 
     private IEnumerator WaitUntilArriveAtComponent()
@@ -619,7 +635,7 @@ public class PotionMakerClass : MonoBehaviour
         // After the timer is done, change state to Check Component State.
         if (timer <= 0)
         {
-            Task.current.Succeed();
+            checkComplete = true;
         }
     }
 
@@ -629,6 +645,7 @@ public class PotionMakerClass : MonoBehaviour
         Debug.Log("Okay, I have all the components needed. Just one final confirmation before I start the brewing process, is this potion what you want?");
         btn_Proceed.SetActive(true);
         btn_Back.SetActive(true);
+        Task.current.Succeed();
     }
 
     [Task]
@@ -665,6 +682,7 @@ public class PotionMakerClass : MonoBehaviour
             }
             yield return null;
         }
+        timerText.gameObject.SetActive(false);
         Task.current.Succeed();
     }
 
@@ -683,6 +701,7 @@ public class PotionMakerClass : MonoBehaviour
             canMoveRandomly = false;
             navAgent.SetDestination(locations[3].position); // Element 3 is the Brewing Location.
             StartCoroutine(WaitUntilMoveToBrewing());
+            Task.current.Succeed();
         }
         else
         {
@@ -795,6 +814,7 @@ public class PotionMakerClass : MonoBehaviour
     {
         Debug.Log("Just need a bit of time for cleaning...");
         StartCoroutine(CleaningTimer(10f));
+        Task.current.Succeed();
     }
 
     private IEnumerator CleaningTimer(float duration)
@@ -814,8 +834,28 @@ public class PotionMakerClass : MonoBehaviour
         if (timer <= 0)
         {
             timerText.gameObject.SetActive(false); // Disable the timer text.
-            Task.current.Succeed();
+            cleaningComplete = true;
         }
+    }
+
+    [Task]
+    public void CheckCleaning()
+    {
+        StartCoroutine(CleaningRepeat());
+    }
+
+    private IEnumerator CleaningRepeat() // Continuing the trend of brute-forcing.
+    {
+        while (cleaningComplete == false)
+        {
+            if (cleaningComplete == true)
+            {
+                break;
+            }
+            yield return null;
+        }
+        cleaningComplete = false;
+        Task.current.Succeed();
     }
 
     #endregion

@@ -52,13 +52,14 @@ tree("Studying")
 	sequence
 		InitializeStudy
 		MoveAndStudy
-		CheckStudy
-		TransitionToComponentTree
-		tree("CheckComponents")
+		sequence
+			CheckStudy
+			tree("CheckComponents")
 
 tree("CheckComponents")
 	sequence
 		MoveAndCheck
+		KeepChecking
 		ConfirmWithCustomer
 		parallel
 			sequence
@@ -82,5 +83,6 @@ tree("Brewing")
 tree("Cleaning")
 	sequence
 		InitializeCleaning
+		CheckCleaning
 		MoveToCounter
 		tree("Transaction")
